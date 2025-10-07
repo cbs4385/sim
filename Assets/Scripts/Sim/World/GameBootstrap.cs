@@ -46,6 +46,8 @@ namespace Sim.World
 
             var header = new Label("Inventory");
             header.style.unityFontStyleAndWeight = FontStyle.Bold;
+            header.style.color = Color.white;
+            header.style.marginBottom = 6;
             _root.Add(header);
 
             // Inventory grid presenter

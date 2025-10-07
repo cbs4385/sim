@@ -21,9 +21,22 @@ namespace Sim.World
             var key = Normalize(relativePathWithoutExtension);
             var resourcePath = $"Sprites/{key}";
             var sprite = Resources.Load<Sprite>(resourcePath);
+
             if (sprite == null)
             {
-                var assetPath = $"Assets/Resources/{resourcePath}.png";
+                var fallbackKey = TryNormalizeDirectoryCasing(key);
+                if (!string.IsNullOrEmpty(fallbackKey))
+                {
+                    resourcePath = $"Sprites/{fallbackKey}";
+                    sprite = Resources.Load<Sprite>(resourcePath);
+                    if (sprite != null)
+                        key = fallbackKey;
+                }
+            }
+
+            if (sprite == null)
+            {
+                var assetPath = $"Assets/Resources/Sprites/{key}.png";
                 throw new FileNotFoundException($"Sprite not found in Resources: {resourcePath}", assetPath);
             }
 
@@ -48,16 +61,53 @@ namespace Sim.World
         {
             var trimmed = path.Trim();
             if (trimmed.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
-                throw new ArgumentException("Path should not include file extensions.", nameof(path));
+                trimmed = trimmed.Substring(0, trimmed.Length - 4);
 
             var normalized = trimmed.Replace('\\', '/');
-            if (normalized.StartsWith("Sprites/", StringComparison.Ordinal))
+
+            if (normalized.StartsWith("Assets/Resources/", StringComparison.OrdinalIgnoreCase))
+                normalized = normalized.Substring("Assets/Resources/".Length);
+
+            if (normalized.StartsWith("Resources/", StringComparison.OrdinalIgnoreCase))
+                normalized = normalized.Substring("Resources/".Length);
+
+            if (normalized.StartsWith("Sprites/", StringComparison.OrdinalIgnoreCase))
                 normalized = normalized.Substring("Sprites/".Length);
 
             if (normalized.StartsWith("/", StringComparison.Ordinal))
                 normalized = normalized.TrimStart('/');
 
             return normalized;
+        }
+
+        private static string TryNormalizeDirectoryCasing(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                return string.Empty;
+
+            var segments = key.Split('/');
+            if (segments.Length <= 1)
+                return string.Empty;
+
+            var changed = false;
+            for (var i = 0; i < segments.Length - 1; i++)
+            {
+                var segment = segments[i];
+                if (string.IsNullOrEmpty(segment))
+                    continue;
+
+                var corrected = char.ToUpperInvariant(segment[0]) + segment.Substring(1);
+                if (!string.Equals(corrected, segment, StringComparison.Ordinal))
+                {
+                    segments[i] = corrected;
+                    changed = true;
+                }
+            }
+
+            if (!changed)
+                return string.Empty;
+
+            return string.Join("/", segments);
         }
     }
 }

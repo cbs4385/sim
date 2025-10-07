@@ -164,7 +164,7 @@ namespace Sim.World
         {
             public List<ThingDef> things;
             [JsonExtensionData]
-            public IDictionary<string, JToken> Extra;
+            public IDictionary<string, JToken> Extra { get; set; }
         }
     }
 

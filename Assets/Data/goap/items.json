@@ -359,17 +359,15 @@
     "tags": [
       "tool",
       "equipment",
-      "mining_tool"
+      "mining_tool",
+      "pickaxe",
+      "pickaxe_tier0"
     ],
     "stackSize": 1,
     "price": {
       "buy": 25.0,
       "sell": 12.5
     },
-    "tools": [
-      "pickaxe",
-      "pickaxe_tier0"
-    ],
     "effects": [],
     "icon": "Sprites/items/basic_pickaxe.png"
   },
@@ -378,17 +376,15 @@
     "tags": [
       "tool",
       "equipment",
-      "mining_tool"
+      "mining_tool",
+      "pickaxe",
+      "pickaxe_tier1"
     ],
     "stackSize": 1,
     "price": {
       "buy": 60.0,
       "sell": 30.0
     },
-    "tools": [
-      "pickaxe",
-      "pickaxe_tier1"
-    ],
     "effects": [],
     "icon": "Sprites/items/copper_pickaxe.png"
   },
@@ -397,17 +393,15 @@
     "tags": [
       "tool",
       "equipment",
-      "mining_tool"
+      "mining_tool",
+      "pickaxe",
+      "pickaxe_tier2"
     ],
     "stackSize": 1,
     "price": {
       "buy": 110.0,
       "sell": 55.0
     },
-    "tools": [
-      "pickaxe",
-      "pickaxe_tier2"
-    ],
     "effects": [],
     "icon": "Sprites/items/iron_pickaxe.png"
   },
@@ -416,17 +410,15 @@
     "tags": [
       "tool",
       "equipment",
-      "fishing_tool"
+      "fishing_tool",
+      "fishing_rod",
+      "fishing_rod_tier0"
     ],
     "stackSize": 1,
     "price": {
       "buy": 28.0,
       "sell": 14.0
     },
-    "tools": [
-      "fishing_rod",
-      "fishing_rod_tier0"
-    ],
     "effects": [],
     "icon": "Sprites/items/basic_fishing_rod.png"
   },
@@ -435,17 +427,15 @@
     "tags": [
       "tool",
       "equipment",
-      "fishing_tool"
+      "fishing_tool",
+      "fishing_rod",
+      "fishing_rod_tier1"
     ],
     "stackSize": 1,
     "price": {
       "buy": 65.0,
       "sell": 32.5
     },
-    "tools": [
-      "fishing_rod",
-      "fishing_rod_tier1"
-    ],
     "effects": [],
     "icon": "Sprites/items/reinforced_fishing_rod.png"
   },
@@ -454,17 +444,15 @@
     "tags": [
       "tool",
       "equipment",
-      "fishing_tool"
+      "fishing_tool",
+      "fishing_rod",
+      "fishing_rod_tier2"
     ],
     "stackSize": 1,
     "price": {
       "buy": 120.0,
       "sell": 60.0
     },
-    "tools": [
-      "fishing_rod",
-      "fishing_rod_tier2"
-    ],
     "effects": [],
     "icon": "Sprites/items/ocean_fishing_rod.png"
   },

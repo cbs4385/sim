@@ -59,9 +59,80 @@ namespace Sim.World
         }
     }
 
+    public class Household
+    {
+        public string Id { get; }
+        public string Type { get; }
+        public RectInt Bounds { get; }
+        public Vector2Int Center { get; }
+
+        public Household(string id, string type, RectInt bounds, Vector2Int center)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Id is required", nameof(id));
+            Id = id;
+            Type = type ?? string.Empty;
+            Bounds = bounds;
+            Center = center;
+        }
+    }
+
+    public class JobSite
+    {
+        public string Id { get; }
+        public string Type { get; }
+        public RectInt Bounds { get; }
+        public Vector2Int Center { get; }
+        public List<string> Roles { get; } = new List<string>();
+
+        public JobSite(string id, string type, RectInt bounds, Vector2Int center)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Id is required", nameof(id));
+            Id = id;
+            Type = type ?? string.Empty;
+            Bounds = bounds;
+            Center = center;
+        }
+    }
+
+    public class PointOfInterest
+    {
+        public string Id { get; }
+        public string Name { get; }
+        public RectInt Bounds { get; }
+        public Vector2Int Center { get; }
+
+        public PointOfInterest(string id, string name, RectInt bounds, Vector2Int center)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Id is required", nameof(id));
+            Id = id;
+            Name = string.IsNullOrWhiteSpace(name) ? id : name;
+            Bounds = bounds;
+            Center = center;
+        }
+    }
+
+    public class CalendarState
+    {
+        public int TotalTicks { get; internal set; }
+        public int TicksPerDay { get; internal set; }
+        public int DayOfYear { get; internal set; }
+        public int DayOfSeason { get; internal set; }
+        public string Season { get; internal set; } = string.Empty;
+        public bool IsDaylight { get; internal set; }
+        public float NormalizedTimeOfDay { get; internal set; }
+        public string LastHoliday { get; internal set; } = string.Empty;
+    }
+
     public static class WorldState
     {
         public static readonly Dictionary<string, Thing> Things = new Dictionary<string, Thing>();
+        public static readonly Dictionary<string, Household> Households = new Dictionary<string, Household>();
+        public static readonly Dictionary<string, JobSite> JobSites = new Dictionary<string, JobSite>();
+        public static readonly Dictionary<string, PointOfInterest> PointsOfInterest = new Dictionary<string, PointOfInterest>();
+        public static readonly CalendarState Calendar = new CalendarState();
         public static Thing Selected;
     }
 }

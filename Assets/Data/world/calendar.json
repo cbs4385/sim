@@ -1,0 +1,54 @@
+{
+  "tickRate": 10,
+  "ticksPerDay": 240,
+  "dayNight": {
+    "sunriseTick": 60,
+    "sunsetTick": 180
+  },
+  "seasons": [
+    {
+      "name": "Spring",
+      "lengthDays": 30,
+      "holidays": [
+        {
+          "name": "Flower Festival",
+          "day": 5
+        },
+        {
+          "name": "Planting Day",
+          "day": 15
+        }
+      ]
+    },
+    {
+      "name": "Summer",
+      "lengthDays": 30,
+      "holidays": [
+        {
+          "name": "Midsummer Faire",
+          "day": 12
+        }
+      ]
+    },
+    {
+      "name": "Autumn",
+      "lengthDays": 30,
+      "holidays": [
+        {
+          "name": "Harvest Feast",
+          "day": 10
+        }
+      ]
+    },
+    {
+      "name": "Winter",
+      "lengthDays": 30,
+      "holidays": [
+        {
+          "name": "Winter's Eve",
+          "day": 20
+        }
+      ]
+    }
+  ]
+}

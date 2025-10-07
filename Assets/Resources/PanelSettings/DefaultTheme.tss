@@ -1,0 +1,8 @@
+:root {
+  --unity-font-style-and-weight: normal;
+  --unity-font-size: 14;
+}
+
+.inventory-grid-slot {
+  unity-font-style: normal;
+}

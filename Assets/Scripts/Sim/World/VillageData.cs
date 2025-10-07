@@ -2,6 +2,8 @@
 // C# 8.0
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Sim.World
 {
@@ -81,6 +83,8 @@ namespace Sim.World
         public string role;
         public PawnLocation home;
         public PawnLocation workplace;
+        public PawnInventory inventory;
+        public float currency;
     }
 
     [Serializable]
@@ -88,6 +92,28 @@ namespace Sim.World
     {
         public string location;
         public string type;
+        public int[] bbox;
+        public int[] center;
+        public float radius_px;
+    }
+
+    [Serializable]
+    public class PawnInventory
+    {
+        public int slots;
+        public int stackSize;
+        public List<PawnInventoryItem> start;
+    }
+
+    [Serializable]
+    public class PawnInventoryItem
+    {
+        public string item;
+        public string id;
+        public int quantity;
+
+        [JsonExtensionData]
+        public IDictionary<string, JToken> Extra { get; set; }
     }
 
     [Serializable]

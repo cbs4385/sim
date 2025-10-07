@@ -2,6 +2,8 @@
 // C# 8.0
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace Sim.World
@@ -15,6 +17,9 @@ namespace Sim.World
         public int x;
         public int y;
         public Dictionary<string, float> attributes;
+
+        [JsonExtensionData]
+        public IDictionary<string, JToken> Extra { get; set; }
     }
 
     [Serializable]

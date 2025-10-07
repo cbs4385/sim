@@ -50,9 +50,9 @@ namespace Sim.World
                 if (i < _inventory.Items.Count)
                 {
                     var stack = _inventory.Items[i];
-                    var tex = SpriteResolver.LoadTextureFromResources("Items/" + stack.itemId);
+                    var sprite = SpriteResolver.LoadSpriteFromResources("Items/" + stack.itemId);
                     var img = new Image();
-                    img.image = tex;
+                    img.sprite = sprite;
                     img.scaleMode = ScaleMode.ScaleToFit;
                     img.pickingMode = PickingMode.Ignore;
                     img.style.width = 32;

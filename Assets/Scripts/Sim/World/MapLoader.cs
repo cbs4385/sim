@@ -21,6 +21,8 @@ namespace Sim.World
 
         private readonly Dictionary<Color32, string> _colorToTile = new Dictionary<Color32, string>();
         private readonly Dictionary<Color32, Material> _materialCache = new Dictionary<Color32, Material>();
+        private readonly Dictionary<string, Material> _tileMaterialCache = new Dictionary<string, Material>();
+        private readonly Dictionary<string, Sprite> _spriteCache = new Dictionary<string, Sprite>();
         private VillageData _villageData;
         private bool _tilesBuilt;
 
@@ -154,7 +156,7 @@ namespace Sim.World
                         Destroy(collider);
 
                     var renderer = tile.GetComponent<MeshRenderer>();
-                    renderer.sharedMaterial = ResolveMaterial(color);
+                    renderer.sharedMaterial = ResolveMaterial(color, tileName);
                 }
             }
 
@@ -172,27 +174,113 @@ namespace Sim.World
             return TileParent;
         }
 
-        private Material ResolveMaterial(Color32 color)
+        private Material ResolveMaterial(Color32 color, string tileName)
         {
-            if (_materialCache.TryGetValue(color, out var cached))
+            if (!string.IsNullOrWhiteSpace(tileName))
+            {
+                if (_tileMaterialCache.TryGetValue(tileName, out var cachedByTile))
+                    return cachedByTile;
+
+                var sprite = LoadTileSprite(tileName);
+                if (sprite != null)
+                {
+                    var spriteMaterial = CreateSpriteMaterial(sprite);
+                    _tileMaterialCache[tileName] = spriteMaterial;
+                    _materialCache[color] = spriteMaterial;
+                    return spriteMaterial;
+                }
+            }
+
+            if (_materialCache.TryGetValue(color, out var cachedByColor))
+                return cachedByColor;
+
+            var colorMaterial = CreateColorMaterial(color);
+            _materialCache[color] = colorMaterial;
+            return colorMaterial;
+        }
+
+        private Sprite LoadTileSprite(string tileName)
+        {
+            if (string.IsNullOrWhiteSpace(tileName))
+                return null;
+
+            if (_spriteCache.TryGetValue(tileName, out var cached))
                 return cached;
 
-            Material material;
-            if (TileMaterial != null)
+            var resourcePath = $"Sprites/Tiles/{tileName}";
+            var sprite = Resources.Load<Sprite>(resourcePath);
+            if (sprite == null)
+                Debug.LogWarning($"MapLoader: Unable to find sprite at Resources/{resourcePath} for tile '{tileName}'. Falling back to color material.");
+
+            _spriteCache[tileName] = sprite;
+            return sprite;
+        }
+
+        private Material CreateSpriteMaterial(Sprite sprite)
+        {
+            var material = TileMaterial != null
+                ? new Material(TileMaterial)
+                : CreateDefaultSpriteMaterial();
+
+            ApplySpriteTexture(material, sprite);
+            return material;
+        }
+
+        private static Material CreateDefaultSpriteMaterial()
+        {
+            var shader = Shader.Find("Unlit/Texture")
+                         ?? Shader.Find("Sprites/Default")
+                         ?? Shader.Find("Unlit/Color")
+                         ?? Shader.Find("Standard");
+            return new Material(shader);
+        }
+
+        private static void ApplySpriteTexture(Material material, Sprite sprite)
+        {
+            if (material == null || sprite == null)
+                return;
+
+            var texture = sprite.texture;
+            if (texture == null)
+                return;
+
+            var rect = sprite.rect;
+            var textureSize = new Vector2(Mathf.Max(1f, texture.width), Mathf.Max(1f, texture.height));
+            var scale = new Vector2(rect.width / textureSize.x, rect.height / textureSize.y);
+            var offset = new Vector2(rect.x / textureSize.x, rect.y / textureSize.y);
+
+            if (material.HasProperty("_MainTex"))
             {
-                material = new Material(TileMaterial) { color = color };
-            }
-            else
-            {
-                var shader = Shader.Find("Unlit/Color") ?? Shader.Find("Standard");
-                material = new Material(shader);
-                if (material.HasProperty("_Color"))
-                    material.color = color;
-                else if (material.HasProperty("_BaseColor"))
-                    material.SetColor("_BaseColor", color);
+                material.mainTexture = texture;
+                material.mainTextureScale = scale;
+                material.mainTextureOffset = offset;
             }
 
-            _materialCache[color] = material;
+            if (material.HasProperty("_BaseMap"))
+            {
+                material.SetTexture("_BaseMap", texture);
+                material.SetTextureScale("_BaseMap", scale);
+                material.SetTextureOffset("_BaseMap", offset);
+            }
+
+            if (material.HasProperty("_Color"))
+                material.color = Color.white;
+            else if (material.HasProperty("_BaseColor"))
+                material.SetColor("_BaseColor", Color.white);
+        }
+
+        private Material CreateColorMaterial(Color32 color)
+        {
+            if (TileMaterial != null)
+                return new Material(TileMaterial) { color = color };
+
+            var shader = Shader.Find("Unlit/Color") ?? Shader.Find("Standard");
+            var material = new Material(shader);
+            if (material.HasProperty("_Color"))
+                material.color = color;
+            else if (material.HasProperty("_BaseColor"))
+                material.SetColor("_BaseColor", color);
+
             return material;
         }
     }

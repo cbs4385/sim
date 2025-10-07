@@ -154,6 +154,14 @@ namespace Sim.World
         }
     }
 
+    public sealed class PlacedThing : Thing
+    {
+        public PlacedThing(string id, string type, Vector2Int cell, IEnumerable<string> tags, IDictionary<string, float> attributes)
+            : base(id, type, cell, tags, attributes)
+        {
+        }
+    }
+
     public sealed class ItemStack
     {
         public Item Item { get; }

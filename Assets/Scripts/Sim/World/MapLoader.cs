@@ -149,7 +149,7 @@ namespace Sim.World
                     tile.transform.SetParent(parent, false);
                     tile.transform.localPosition = new Vector3(x * tileSize, y * tileSize, 0f);
                     tile.transform.localScale = Vector3.one * tileSize;
-                    tile.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                    tile.transform.localRotation = Quaternion.identity;
 
                     var collider = tile.GetComponent<Collider>();
                     if (collider != null)

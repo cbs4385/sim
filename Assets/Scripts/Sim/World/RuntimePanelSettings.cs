@@ -1,5 +1,6 @@
 // Assets/Scripts/Sim/World/RuntimePanelSettings.cs
 // C# 8.0
+using System;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,14 +18,37 @@ namespace Sim.World
         private static readonly MethodInfo s_OnEnableMethod = typeof(PanelSettings)
             .GetMethod("OnEnable", BindingFlags.Instance | BindingFlags.NonPublic);
 
+        private static readonly MethodInfo s_CreateInstanceMethod = typeof(ScriptableObject)
+            .GetMethod(
+                "CreateScriptableObjectInstanceFromType",
+                BindingFlags.Static | BindingFlags.NonPublic,
+                null,
+                new[] { typeof(Type), typeof(bool) },
+                null);
+
         public static PanelSettings CreateInstance()
         {
-            var settings = ScriptableObject.CreateInstance<PanelSettings>();
+            var settings = CreatePanelSettingsWithoutEnable();
 
             PanelSettingsThemeUtility.EnsureThemeAssigned(settings);
             s_OnEnableMethod?.Invoke(settings, null);
 
             return settings;
+        }
+
+        private static PanelSettings CreatePanelSettingsWithoutEnable()
+        {
+            if (s_CreateInstanceMethod != null)
+            {
+                var instance = s_CreateInstanceMethod.Invoke(
+                    null,
+                    new object[] { typeof(PanelSettings), false }) as PanelSettings;
+                if (instance != null)
+                    return instance;
+            }
+
+            // Fallback for Unity versions where the internal factory method is unavailable.
+            return ScriptableObject.CreateInstance<PanelSettings>();
         }
     }
 }

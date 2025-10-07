@@ -87,6 +87,7 @@ namespace Sim.World
     public class PawnLocation
     {
         public string location;
+        public string type;
     }
 
     [Serializable]

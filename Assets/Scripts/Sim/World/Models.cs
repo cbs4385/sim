@@ -40,6 +40,7 @@ namespace Sim.World
         public int slots;
         public int stackSize;
         public List<ThingInventoryContentDef> contents;
+        public List<ThingInventoryContentDef> start;
 
         [JsonExtensionData]
         public IDictionary<string, JToken> Extra { get; set; }
@@ -49,10 +50,22 @@ namespace Sim.World
     public class ThingInventoryContentDef
     {
         public string item;
+        public string id;
         public int quantity;
 
         [JsonExtensionData]
         public IDictionary<string, JToken> Extra { get; set; }
+
+        public string ResolveItemId()
+        {
+            if (!string.IsNullOrWhiteSpace(item))
+                return item;
+
+            if (!string.IsNullOrWhiteSpace(id))
+                return id;
+
+            return null;
+        }
     }
 
     public abstract class Thing

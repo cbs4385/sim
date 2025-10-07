@@ -106,7 +106,9 @@ namespace Sim.World
 
         private static bool TryPopulateThemeList(PanelSettings settings, ThemeStyleSheet theme)
         {
-            var property = typeof(PanelSettings).GetProperty("themeStyleSheets", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var property = typeof(PanelSettings).GetProperty(
+                "themeStyleSheets",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (property == null)
                 return false;
 

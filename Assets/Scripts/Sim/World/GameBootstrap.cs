@@ -13,6 +13,7 @@ namespace Sim.World
         private WorldTimeSystem _timeSystem;
         private MapLoader _mapLoader;
         private VillageSpawner _villageSpawner;
+        private ThingSpawner _thingSpawner;
 
         public string DemoSettingsPath = "Assets/Data/demo.settings.json";
         public string ItemsPath = "Assets/Data/demo.items.json";
@@ -80,8 +81,14 @@ namespace Sim.World
             _villageSpawner.JobParent = CreateChildTransform("Jobs", markerRoot);
             _villageSpawner.PointOfInterestParent = CreateChildTransform("PointsOfInterest", markerRoot);
 
+            _thingSpawner = gameObject.AddComponent<ThingSpawner>();
+            _thingSpawner.MapLoader = _mapLoader;
+            _thingSpawner.Logger = logger;
+            _thingSpawner.ThingParent = CreateChildTransform("Things", worldRoot);
+
             var worldLoader = _services.WorldLoader;
             var selectedThing = worldLoader.LoadDemoWorld(DemoSettingsPath);
+            _thingSpawner.Spawn(WorldState.Things.Values);
             if (selectedThing is Station station && station.Inventory != null)
             {
                 _inventoryUI.Bind(station.Inventory);

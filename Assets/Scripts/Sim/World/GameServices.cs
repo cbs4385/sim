@@ -180,25 +180,34 @@ namespace Sim.World
                 if (td == null || string.IsNullOrEmpty(td.type))
                     continue;
 
-                if (!string.Equals(td.type, "pantry", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
                 var id = td.id;
                 if (string.IsNullOrWhiteSpace(id))
                     id = Guid.NewGuid().ToString("N");
 
-                var inventory = BuildInventory(td);
-                var pantry = new Station(id, td.type, new Vector2Int(td.x, td.y), td.tags, td.attributes, inventory);
-                inventory.Changed += (sender, args) => OnPantryInventoryChanged(pantry, args);
+                var cell = new Vector2Int(td.x, td.y);
+                Thing thing;
 
-                LogPantryInfo(pantry);
-                SeedInventory(pantry, td.container?.inventory);
+                if (td.container?.inventory != null)
+                {
+                    var inventory = BuildInventory(td);
+                    var station = new Station(id, td.type, cell, td.tags, td.attributes, inventory);
+                    inventory.Changed += (sender, args) => OnPantryInventoryChanged(station, args);
 
-                WorldState.Things[pantry.Id] = pantry;
+                    LogPantryInfo(station);
+                    SeedInventory(station, td.container?.inventory);
+
+                    thing = station;
+                }
+                else
+                {
+                    thing = new PlacedThing(id, td.type, cell, td.tags, td.attributes);
+                }
+
+                WorldState.Things[thing.Id] = thing;
             }
 
-            if (WorldState.Things.Count == 0)
-                throw new InvalidDataException("No pantry found in demo.settings.json (type='pantry').");
+            var stationCount = WorldState.Things.Values.OfType<Station>().Count();
+            _logger.World($"Loaded {WorldState.Things.Count} things from demo.settings.json ({stationCount} stations).");
 
             var selected = WorldState.Things.Values.OfType<Station>().FirstOrDefault();
             if (selected == null)

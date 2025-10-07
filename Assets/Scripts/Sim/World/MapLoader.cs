@@ -33,7 +33,7 @@ namespace Sim.World
     public class MapLoader : MonoBehaviour
     {
         public Texture2D SourceMap;
-        public string VillageDataPath = "Assets/Data/village_data.json";
+        public string VillageDataPath = "Assets/Data/world/village_data.json";
 
         private Dictionary<Color32, string> _colorToTile = new Dictionary<Color32, string>();
 
@@ -47,7 +47,16 @@ namespace Sim.World
                     throw new InvalidDataException("village_data.json missing map.key");
                 BuildColorIndex(vdata.map.key);
 
-                var pngPath = Path.Combine(Application.dataPath, "Data", "village_map_1000x1000.png");
+                var pngFile = vdata.map?.mapPng;
+                string pngRelativePath;
+                if (!string.IsNullOrWhiteSpace(pngFile) && pngFile.StartsWith("Assets/", StringComparison.Ordinal))
+                    pngRelativePath = pngFile;
+                else if (!string.IsNullOrWhiteSpace(pngFile))
+                    pngRelativePath = $"Assets/Data/world/{pngFile}";
+                else
+                    pngRelativePath = "Assets/Data/world/village_map_1000x1000.png";
+
+                var pngPath = ConfigLoader.GetAbsolutePath(pngRelativePath);
                 if (!File.Exists(pngPath))
                     throw new FileNotFoundException("Map PNG not found", pngPath);
 

@@ -17,13 +17,15 @@ namespace Sim.World
         private InventoryGridPresenter _inventoryUI;
 
         public string DemoSettingsPath = "Assets/Data/demo.settings.json";
-        public string ItemsPath = "Assets/Data/items.json";
+        public string ItemsPath = "Assets/Data/goap/items.json";
 
         void Awake()
         {
             Application.targetFrameRate = 60;
             Log.InitLogs();
             Log.World("GameBootstrap.Awake()");
+
+            ContentValidator.ValidateAll();
 
             // Create a UI Document at runtime so no inspector references are required.
             var uiDoc = gameObject.AddComponent<UIDocument>();

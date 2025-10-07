@@ -162,7 +162,21 @@ namespace Sim.World
         [Serializable]
         private sealed class TempWorld
         {
+            // The demo settings JSON includes a large number of fields under "world".
+            // We only need "things" for now, but because ConfigLoader is configured to
+            // fail on unknown members we must explicitly surface any known top-level
+            // fields that appear in the file.  Everything else is captured via
+            // JsonExtensionData so future additions continue to deserialize without
+            // changes here.
+            public int width;
+            public int height;
+            public float blockedChance;
+            public int shards;
+            public int rngSeed;
+            public JToken map;
+            public JToken facts;
             public List<ThingDef> things;
+
             [JsonExtensionData]
             public IDictionary<string, JToken> Extra { get; set; }
         }

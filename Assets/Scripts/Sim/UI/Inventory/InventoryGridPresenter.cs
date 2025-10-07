@@ -17,6 +17,11 @@ namespace Sim.World
             Root = new VisualElement();
             Root.style.flexDirection = FlexDirection.Row;
             Root.style.flexWrap = Wrap.Wrap;
+            Root.style.justifyContent = Justify.FlexStart;
+            Root.style.alignContent = Align.FlexStart;
+            Root.style.alignItems = Align.FlexStart;
+            Root.style.flexGrow = 0f;
+            Root.style.flexShrink = 0f;
             Root.style.paddingTop = 4;
             Root.style.paddingLeft = 4;
             Root.style.paddingRight = 4;
@@ -59,6 +64,8 @@ namespace Sim.World
                 var slot = new VisualElement();
                 slot.style.width = 40;
                 slot.style.height = 40;
+                slot.style.flexGrow = 0f;
+                slot.style.flexShrink = 0f;
                 slot.style.borderTopWidth = 1;
                 slot.style.borderLeftWidth = 1;
                 slot.style.borderRightWidth = 1;

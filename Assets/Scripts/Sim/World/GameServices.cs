@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Microsoft.Extensions.DependencyInjection;
 using Sim.Config;
 using Sim.Logging;
 
@@ -140,16 +139,29 @@ namespace Sim.World
         }
     }
 
-    public static class GameServiceCollectionExtensions
+    public sealed class GameServices : IDisposable
     {
-        public static IServiceCollection AddGameServices(this IServiceCollection services)
+        public IWorldLogger WorldLogger { get; }
+        public IContentValidationService ContentValidationService { get; }
+        public IPanelSettingsProvider PanelSettingsProvider { get; }
+        public IWorldLoader WorldLoader { get; }
+        public InventoryGridPresenter InventoryGridPresenter { get; }
+
+        public GameServices()
         {
-            services.AddSingleton<IWorldLogger, WorldLogger>();
-            services.AddSingleton<IContentValidationService, ContentValidationService>();
-            services.AddSingleton<IPanelSettingsProvider, ResourcesPanelSettingsProvider>();
-            services.AddSingleton<IWorldLoader, PantryWorldLoader>();
-            services.AddSingleton<InventoryGridPresenter>();
-            return services;
+            WorldLogger = new WorldLogger();
+            ContentValidationService = new ContentValidationService();
+            PanelSettingsProvider = new ResourcesPanelSettingsProvider();
+            WorldLoader = new PantryWorldLoader(WorldLogger);
+            InventoryGridPresenter = new InventoryGridPresenter();
+        }
+
+        public void Dispose()
+        {
+            if (PanelSettingsProvider is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }

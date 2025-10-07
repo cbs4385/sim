@@ -1,9 +1,7 @@
 // Assets/Scripts/Sim/World/GameBootstrap.cs
 // C# 8.0
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Sim.World
 {
@@ -11,7 +9,7 @@ namespace Sim.World
     {
         private VisualElement _root;
         private InventoryGridPresenter _inventoryUI;
-        private IServiceProvider _serviceProvider;
+        private GameServices _services;
 
         public string DemoSettingsPath = "Assets/Data/demo.settings.json";
         public string ItemsPath = "Assets/Data/goap/items.json";
@@ -19,18 +17,18 @@ namespace Sim.World
         void Awake()
         {
             Application.targetFrameRate = 60;
-            _serviceProvider = BuildServiceProvider();
+            _services = new GameServices();
 
-            var logger = _serviceProvider.GetRequiredService<IWorldLogger>();
+            var logger = _services.WorldLogger;
             logger.Initialize();
             logger.World("GameBootstrap.Awake()");
 
-            var validator = _serviceProvider.GetRequiredService<IContentValidationService>();
+            var validator = _services.ContentValidationService;
             validator.ValidateAll();
 
             // Create a UI Document at runtime so no inspector references are required.
             var uiDoc = gameObject.AddComponent<UIDocument>();
-            var panelSettingsProvider = _serviceProvider.GetRequiredService<IPanelSettingsProvider>();
+            var panelSettingsProvider = _services.PanelSettingsProvider;
             uiDoc.panelSettings = panelSettingsProvider.GetOrCreate();
 
             // Build UI tree in code
@@ -45,10 +43,10 @@ namespace Sim.World
             _root.Add(header);
 
             // Inventory grid presenter
-            _inventoryUI = _serviceProvider.GetRequiredService<InventoryGridPresenter>();
+            _inventoryUI = _services.InventoryGridPresenter;
             _root.Add(_inventoryUI.Root);
 
-            var worldLoader = _serviceProvider.GetRequiredService<IWorldLoader>();
+            var worldLoader = _services.WorldLoader;
             var selected = worldLoader.LoadDemoWorld(DemoSettingsPath);
             if (selected?.Inventory != null)
             {
@@ -57,20 +55,10 @@ namespace Sim.World
             }
         }
 
-        private IServiceProvider BuildServiceProvider()
-        {
-            var services = new ServiceCollection();
-            services.AddGameServices();
-            return services.BuildServiceProvider();
-        }
-
         void OnDestroy()
         {
-            if (_serviceProvider is IDisposable disposable)
-            {
-                disposable.Dispose();
-                _serviceProvider = null;
-            }
+            _services?.Dispose();
+            _services = null;
         }
     }
 }

@@ -148,10 +148,12 @@ namespace Sim.World
     public sealed class PantryWorldLoader : IWorldLoader
     {
         private readonly IWorldLogger _logger;
+        private readonly IItemDatabase _itemDatabase;
 
-        public PantryWorldLoader(IWorldLogger logger)
+        public PantryWorldLoader(IWorldLogger logger, IItemDatabase itemDatabase)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _itemDatabase = itemDatabase ?? throw new ArgumentNullException(nameof(itemDatabase));
         }
 
         public Thing LoadDemoWorld(string demoSettingsPath)
@@ -167,6 +169,10 @@ namespace Sim.World
 
             WorldState.Things.Clear();
 
+            var worldWidth = Math.Max(1, root.world.width);
+            var worldHeight = Math.Max(1, root.world.height);
+            var bounds = new RectInt(0, 0, worldWidth, worldHeight);
+
             foreach (var td in root.world.things)
             {
                 if (td == null || string.IsNullOrEmpty(td.type))
@@ -179,21 +185,86 @@ namespace Sim.World
                 if (string.IsNullOrWhiteSpace(id))
                     id = Guid.NewGuid().ToString("N");
 
-                var thing = new Thing(id, td.type, new Vector2Int(td.x, td.y), td.attributes);
-                var capacity = thing.GetIntAttr("inventory_capacity", 0);
-                if (capacity <= 0)
-                    throw new InvalidDataException("Pantry missing attributes.inventory_capacity in demo.settings.json");
+                var inventory = BuildInventory(td);
+                var pantry = new Station(id, td.type, new Vector2Int(td.x, td.y), td.tags, td.attributes, inventory);
+                inventory.Changed += (sender, args) => OnPantryInventoryChanged(pantry, args);
 
-                thing.Inventory = new Inventory(capacity);
-                WorldState.Things[thing.Id] = thing;
+                LogPantryInfo(pantry);
+                SeedInventory(pantry, td.container?.inventory);
+
+                WorldState.Things[pantry.Id] = pantry;
             }
 
             if (WorldState.Things.Count == 0)
                 throw new InvalidDataException("No pantry found in demo.settings.json (type='pantry').");
 
-            WorldState.Selected = WorldState.Things.Values.First();
-            _logger.World($"Selected pantry {WorldState.Selected.Id} capacity={WorldState.Selected.Inventory.Capacity}");
+            var selected = WorldState.Things.Values.OfType<Station>().FirstOrDefault();
+            if (selected == null)
+                throw new InvalidDataException("No pantry station could be created from demo.settings.json.");
+
+            WorldState.Selected = selected;
+
+            var path = GridPathfinder.FindPath(bounds, Vector2Int.zero, WorldState.Selected.Cell, _ => true);
+            if (path.Count > 0)
+                _logger.World($"Computed path to {WorldState.Selected.Id} with {path.Count} steps.");
+            else
+                _logger.World($"No path could be computed to {WorldState.Selected.Id}.");
+
             return WorldState.Selected;
+        }
+
+        private Inventory BuildInventory(ThingDef thing)
+        {
+            if (thing?.container?.inventory == null)
+                throw new InvalidDataException($"Pantry '{thing?.id ?? "unknown"}' missing container.inventory definition.");
+
+            var inv = thing.container.inventory;
+            if (inv.slots <= 0)
+                throw new InvalidDataException($"Pantry '{thing.id}' missing container.inventory.slots.");
+            if (inv.stackSize <= 0)
+                throw new InvalidDataException($"Pantry '{thing.id}' missing container.inventory.stackSize.");
+
+            return new Inventory(inv.slots, inv.stackSize);
+        }
+
+        private void SeedInventory(Station station, ThingInventoryDef inventoryDef)
+        {
+            if (station == null || inventoryDef?.contents == null)
+                return;
+
+            foreach (var entry in inventoryDef.contents)
+            {
+                if (entry == null || string.IsNullOrWhiteSpace(entry.item))
+                    throw new InvalidDataException($"Pantry '{station.Id}' inventory entry missing item id.");
+                if (entry.quantity <= 0)
+                    continue;
+
+                if (!_itemDatabase.TryGet(entry.item, out var item))
+                    throw new InvalidDataException($"Pantry '{station.Id}' references unknown item '{entry.item}'.");
+
+                if (!station.Inventory.TryAdd(item, entry.quantity, out var remainder) || remainder > 0)
+                    throw new InvalidDataException($"Pantry '{station.Id}' cannot store {entry.quantity}x '{entry.item}'.");
+            }
+        }
+
+        private void OnPantryInventoryChanged(Station station, InventoryChangedEventArgs args)
+        {
+            if (station == null || args == null)
+                return;
+
+            var verb = args.QuantityDelta >= 0 ? "added" : "removed";
+            var amount = Math.Abs(args.QuantityDelta);
+            var itemId = string.IsNullOrWhiteSpace(args.ItemId) ? "unknown" : args.ItemId;
+            var total = station.Inventory.GetQuantity(itemId);
+            _logger.World($"Pantry {station.Id} {verb} {amount}x {itemId} (total={total}).");
+        }
+
+        private void LogPantryInfo(Station station)
+        {
+            if (station?.Inventory == null)
+                return;
+
+            _logger.World($"Pantry {station.Id} capacity={station.Inventory.Capacity} stackLimit={station.Inventory.StackSizeLimit}.");
         }
 
         [Serializable]
@@ -231,6 +302,7 @@ namespace Sim.World
         public IContentValidationService ContentValidationService { get; }
         public IPanelSettingsProvider PanelSettingsProvider { get; }
         public IWorldLoader WorldLoader { get; }
+        public IItemDatabase ItemDatabase { get; }
         public InventoryGridPresenter InventoryGridPresenter { get; }
 
         public GameServices()
@@ -238,7 +310,8 @@ namespace Sim.World
             WorldLogger = new WorldLogger();
             ContentValidationService = new ContentValidationService();
             PanelSettingsProvider = new ResourcesPanelSettingsProvider();
-            WorldLoader = new PantryWorldLoader(WorldLogger);
+            ItemDatabase = new ItemDatabase(WorldLogger);
+            WorldLoader = new PantryWorldLoader(WorldLogger, ItemDatabase);
             InventoryGridPresenter = new InventoryGridPresenter();
         }
 

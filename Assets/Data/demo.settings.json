@@ -388,7 +388,25 @@
         "container": {
           "inventory": {
             "slots": 12,
-            "stackSize": 20
+            "stackSize": 20,
+            "contents": [
+              {
+                "item": "bread_loaf",
+                "quantity": 4
+              },
+              {
+                "item": "turnip",
+                "quantity": 3
+              },
+              {
+                "item": "strawberry",
+                "quantity": 2
+              },
+              {
+                "item": "sungrain",
+                "quantity": 3
+              }
+            ]
           }
         }
       },

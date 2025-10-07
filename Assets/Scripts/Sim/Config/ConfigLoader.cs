@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace Sim.Config
@@ -28,7 +29,7 @@ namespace Sim.Config
         };
 
         /// <summary>
-        /// Loads JSON from an Assets-relative path (e.g., "Assets/Data/items.json").
+        /// Loads JSON from an Assets-relative path (e.g., "Assets/Data/goap/items.json").
         /// Throws InvalidDataException on parse/validation errors.
         /// </summary>
         public static T LoadJson<T>(string assetsRelativePath)
@@ -36,43 +37,101 @@ namespace Sim.Config
             if (string.IsNullOrWhiteSpace(assetsRelativePath))
                 throw new ArgumentException("Path is required.", nameof(assetsRelativePath));
 
-            string path;
-#if UNITY_EDITOR || UNITY_STANDALONE
-            if (assetsRelativePath.StartsWith("Assets/", StringComparison.OrdinalIgnoreCase))
-                path = Path.Combine(Application.dataPath, assetsRelativePath.Substring("Assets/".Length));
-            else
-                path = Path.Combine(Application.dataPath, assetsRelativePath.TrimStart('/', '\\'));
-#else
-            path = Path.Combine(Application.dataPath, assetsRelativePath.TrimStart('/', '\\'));
-#endif
-            path = Path.GetFullPath(path);
+            var (relativePath, absolutePath) = ResolveAssetsPath(assetsRelativePath);
 
-            if (!File.Exists(path))
-                throw new FileNotFoundException("Config file not found", path);
+            if (!File.Exists(absolutePath))
+                throw new FileNotFoundException("Config file not found", absolutePath);
 
-            string json = File.ReadAllText(path);
+            using var reader = CreateJsonReader(absolutePath);
+            var serializer = JsonSerializer.Create(Settings);
 
             try
             {
-                // NOTE: We intentionally do NOT enable comments or trailing commas.
-                // If your file contains these, fix the data; this loader is strict by design.
-                var result = JsonConvert.DeserializeObject<T>(json, Settings);
+                var result = serializer.Deserialize<T>(reader);
                 if (result == null)
-                    throw new InvalidDataException("Deserialization produced null: " + path);
+                    throw new InvalidDataException($"Deserialization produced null: {relativePath}");
+
+                EnsureStreamFullyConsumed(reader, relativePath);
                 return result;
             }
             catch (JsonReaderException ex)
             {
-                throw new InvalidDataException("Failed to parse JSON (syntax error; comments/trailing commas are not allowed): " + path, ex);
+                throw BuildInvalidDataException(relativePath, "Failed to parse JSON (syntax error; comments/trailing commas are not allowed)", ex);
             }
             catch (JsonSerializationException ex)
             {
-                throw new InvalidDataException("Failed to bind JSON to target type (unknown/missing fields?): " + path, ex);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidDataException("Unexpected error parsing JSON: " + path, ex);
+                throw BuildInvalidDataException(relativePath, "Failed to bind JSON to target type (unknown/missing fields?)", ex);
             }
         }
+
+        public static JToken LoadJToken(string assetsRelativePath)
+        {
+            if (string.IsNullOrWhiteSpace(assetsRelativePath))
+                throw new ArgumentException("Path is required.", nameof(assetsRelativePath));
+
+            var (relativePath, absolutePath) = ResolveAssetsPath(assetsRelativePath);
+
+            if (!File.Exists(absolutePath))
+                throw new FileNotFoundException("Config file not found", absolutePath);
+
+            using var reader = CreateJsonReader(absolutePath);
+
+            try
+            {
+                var token = JToken.ReadFrom(reader);
+                EnsureStreamFullyConsumed(reader, relativePath);
+                return token;
+            }
+            catch (JsonReaderException ex)
+            {
+                throw BuildInvalidDataException(relativePath, "Failed to parse JSON (syntax error; comments/trailing commas are not allowed)", ex);
+            }
+        }
+
+        public static string GetAbsolutePath(string assetsRelativePath)
+        {
+            if (string.IsNullOrWhiteSpace(assetsRelativePath))
+                throw new ArgumentException("Path is required.", nameof(assetsRelativePath));
+
+            var (_, absolutePath) = ResolveAssetsPath(assetsRelativePath);
+            return absolutePath;
+        }
+
+        private static (string relativePath, string absolutePath) ResolveAssetsPath(string assetsRelativePath)
+        {
+            var trimmed = assetsRelativePath.Trim();
+            var normalized = trimmed.Replace('\\', '/');
+            if (!normalized.StartsWith("Assets/", StringComparison.Ordinal))
+                normalized = "Assets/" + normalized.TrimStart('/');
+
+            var absolute = Path.Combine(Application.dataPath, normalized.Substring("Assets/".Length));
+            absolute = Path.GetFullPath(absolute);
+            return (normalized, absolute);
+        }
+
+        private static JsonTextReader CreateJsonReader(string absolutePath)
+        {
+            var stream = File.OpenText(absolutePath);
+            var reader = new JsonTextReader(stream)
+            {
+                CloseInput = true,
+                DateParseHandling = DateParseHandling.None,
+                FloatParseHandling = FloatParseHandling.Double
+            };
+            return reader;
+        }
+
+        private static void EnsureStreamFullyConsumed(JsonTextReader reader, string relativePath)
+        {
+            if (reader == null) return;
+            if (reader.Read())
+                throw new InvalidDataException($"Unexpected trailing content in JSON: {relativePath}");
+        }
+
+        private static InvalidDataException BuildInvalidDataException(string relativePath, string context, Exception inner)
+        {
+            return new InvalidDataException($"{context}: {relativePath}\n{inner.Message}", inner);
+        }
+
     }
 }

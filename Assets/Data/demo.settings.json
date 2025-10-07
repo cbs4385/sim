@@ -3987,7 +3987,7 @@
     ]
   },
   "items": {
-    "catalog": "items.json",
+    "catalog": "goap/items.json",
     "recipes": "recipes.json"
   },
   "farming": {

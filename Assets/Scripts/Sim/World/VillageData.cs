@@ -27,6 +27,7 @@ namespace Sim.World
     {
         public List<MapBuilding> buildings;
         public List<MapFeature> features;
+        public List<MapFarm> farms;
     }
 
     [Serializable]
@@ -41,6 +42,17 @@ namespace Sim.World
     {
         public string name;
         public int[] bbox;
+        public int[] center;
+        public float radius_px;
+    }
+
+    [Serializable]
+    public class MapFarm
+    {
+        public int[] field_bbox;
+        public string type;
+        public int[] farmhouse_bbox;
+        public List<int[]> drive_to_center;
     }
 
     [Serializable]

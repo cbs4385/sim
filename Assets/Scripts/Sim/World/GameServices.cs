@@ -64,6 +64,16 @@ namespace Sim.World
             if (_cached == null)
             {
                 _cached = ScriptableObject.CreateInstance<PanelSettings>();
+                _cached.name = "RuntimePanelSettings";
+            }
+
+            if (_cached.themeStyleSheet == null)
+            {
+                var theme = Resources.Load<ThemeStyleSheet>("PanelSettings/DefaultTheme");
+                if (theme == null)
+                    theme = ScriptableObject.CreateInstance<ThemeStyleSheet>();
+
+                _cached.themeStyleSheet = theme;
             }
 
             return _cached;
@@ -92,12 +102,12 @@ namespace Sim.World
             _logger.World("LoadWorld() begin.");
 
             var root = ConfigLoader.LoadJson<TempRoot>(demoSettingsPath);
-            if (root?.placements?.things == null)
-                throw new InvalidDataException("demo.settings.json missing placements.things");
+            if (root?.world?.things == null)
+                throw new InvalidDataException("demo.settings.json missing world.things");
 
             WorldState.Things.Clear();
 
-            foreach (var td in root.placements.things)
+            foreach (var td in root.world.things)
             {
                 if (td == null || string.IsNullOrEmpty(td.type))
                     continue;
@@ -129,11 +139,11 @@ namespace Sim.World
         [Serializable]
         private sealed class TempRoot
         {
-            public TempPlacement placements;
+            public TempWorld world;
         }
 
         [Serializable]
-        private sealed class TempPlacement
+        private sealed class TempWorld
         {
             public List<ThingDef> things;
         }

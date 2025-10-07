@@ -164,8 +164,24 @@ namespace Sim.World
                     if (feature == null || string.IsNullOrWhiteSpace(feature.name))
                         continue;
 
-                    var rect = ToRect(feature.bbox, feature.name);
-                    var center = new Vector2Int(rect.xMin + rect.width / 2, rect.yMin + rect.height / 2);
+                    var hasCenter = TryToVector(feature.center, out var center);
+                    var hasRect = TryToRect(feature.bbox, feature.name, out var rect);
+
+                    if (!hasRect)
+                    {
+                        if (!hasCenter)
+                            throw new InvalidDataException($"Feature '{feature.name}' missing bbox/center definition");
+
+                        var radius = feature.radius_px > 0f ? Mathf.Max(1, Mathf.RoundToInt(feature.radius_px)) : 1;
+                        var diameter = Math.Max(1, radius * 2);
+                        rect = new RectInt(center.x - radius, center.y - radius, diameter, diameter);
+                    }
+
+                    if (!hasCenter)
+                    {
+                        center = new Vector2Int(rect.xMin + rect.width / 2, rect.yMin + rect.height / 2);
+                    }
+
                     var id = $"feature:{feature.name}";
                     var poi = new PointOfInterest(id, feature.name, rect, center);
                     WorldState.PointsOfInterest[id] = poi;
@@ -233,8 +249,22 @@ namespace Sim.World
 
         private static RectInt ToRect(int[] bbox, string id)
         {
-            if (bbox == null || bbox.Length != 4)
+            if (!TryToRect(bbox, id, out var rect))
                 throw new InvalidDataException($"Location '{id}' missing bbox");
+
+            return rect;
+        }
+
+        private static bool TryToRect(int[] bbox, string id, out RectInt rect)
+        {
+            if (bbox == null || bbox.Length != 4)
+            {
+                rect = default;
+                if (bbox == null)
+                    return false;
+
+                throw new InvalidDataException($"Location '{id}' has invalid bbox");
+            }
 
             var xMin = bbox[0];
             var yMin = bbox[1];
@@ -245,15 +275,28 @@ namespace Sim.World
 
             var width = Math.Max(1, xMax - xMin);
             var height = Math.Max(1, yMax - yMin);
-            return new RectInt(xMin, yMin, width, height);
+            rect = new RectInt(xMin, yMin, width, height);
+            return true;
         }
 
         private static Vector2Int ToVector(int[] center, string id)
         {
-            if (center == null || center.Length < 2)
+            if (!TryToVector(center, out var vector))
                 throw new InvalidDataException($"Location '{id}' missing center");
 
-            return new Vector2Int(center[0], center[1]);
+            return vector;
+        }
+
+        private static bool TryToVector(int[] center, out Vector2Int vector)
+        {
+            if (center == null || center.Length < 2)
+            {
+                vector = default;
+                return false;
+            }
+
+            vector = new Vector2Int(center[0], center[1]);
+            return true;
         }
     }
 }

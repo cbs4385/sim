@@ -1,5 +1,6 @@
 // Assets/Scripts/Sim/World/RuntimePanelSettings.cs
 // C# 8.0
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,10 +13,13 @@ namespace Sim.World
     /// </summary>
     public sealed class RuntimePanelSettings : PanelSettings
     {
-        protected override void OnEnable()
+        private static readonly MethodInfo s_OnEnableMethod = typeof(PanelSettings)
+            .GetMethod("OnEnable", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        protected void OnEnable()
         {
             PanelSettingsThemeUtility.EnsureThemeAssigned(this);
-            base.OnEnable();
+            s_OnEnableMethod?.Invoke(this, null);
         }
     }
 }

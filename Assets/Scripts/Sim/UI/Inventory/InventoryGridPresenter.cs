@@ -23,7 +23,16 @@ namespace Sim.World
 
         public void Bind(Inventory inventory)
         {
+            if (_inventory != null)
+                _inventory.Changed -= OnInventoryChanged;
+
             _inventory = inventory ?? throw new ArgumentNullException(nameof(inventory));
+            _inventory.Changed += OnInventoryChanged;
+            Rebuild();
+        }
+
+        private void OnInventoryChanged(object sender, InventoryChangedEventArgs e)
+        {
             Rebuild();
         }
 
@@ -50,7 +59,7 @@ namespace Sim.World
                 if (i < _inventory.Items.Count)
                 {
                     var stack = _inventory.Items[i];
-                    var sprite = SpriteResolver.LoadSpriteFromResources("Items/" + stack.itemId);
+                    var sprite = SpriteResolver.LoadSpriteFromResources("Items/" + stack.ItemId);
                     var img = new Image();
                     img.sprite = sprite;
                     img.scaleMode = ScaleMode.ScaleToFit;
@@ -59,7 +68,7 @@ namespace Sim.World
                     img.style.height = 32;
                     slot.Add(img);
 
-                    var qty = new Label(stack.quantity.ToString());
+                    var qty = new Label(stack.Quantity.ToString());
                     qty.style.position = Position.Absolute;
                     qty.style.bottom = 2;
                     qty.style.right = 4;

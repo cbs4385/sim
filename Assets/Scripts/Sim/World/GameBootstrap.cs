@@ -26,6 +26,9 @@ namespace Sim.World
             logger.Initialize();
             logger.World("GameBootstrap.Awake()");
 
+            var itemDatabase = _services.ItemDatabase;
+            itemDatabase.Load(ItemsPath);
+
             var validator = _services.ContentValidationService;
             validator.ValidateAll();
 
@@ -76,11 +79,11 @@ namespace Sim.World
             _villageSpawner.PointOfInterestParent = CreateChildTransform("PointsOfInterest", markerRoot);
 
             var worldLoader = _services.WorldLoader;
-            var selected = worldLoader.LoadDemoWorld(DemoSettingsPath);
-            if (selected?.Inventory != null)
+            var selectedThing = worldLoader.LoadDemoWorld(DemoSettingsPath);
+            if (selectedThing is Station station && station.Inventory != null)
             {
-                _inventoryUI.Bind(selected.Inventory);
-                logger.World($"Inventory UI bound to {selected.Id}");
+                _inventoryUI.Bind(station.Inventory);
+                logger.World($"Inventory UI bound to {station.Id}");
             }
         }
 

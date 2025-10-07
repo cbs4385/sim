@@ -1,0 +1,47 @@
+{
+  "enabled": true,
+  "respawnHours": 6.0,
+  "maxActiveSpots": 14,
+  "spotsPer100Tiles": 3.5,
+  "catches": [
+    {
+      "id": "river_perch",
+      "itemId": "silver_perch",
+      "minQuantity": 1,
+      "maxQuantity": 2,
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Autumn"
+      ],
+      "weather": [
+        "Clear",
+        "Cloudy"
+      ],
+      "shallowOnly": true,
+      "weight": 1.0,
+      "castsPerSpot": 3,
+      "baitItemId": "river_bait",
+      "skill": "fishing",
+      "skillXp": 3.0
+    },
+    {
+      "id": "sunset_salmon",
+      "itemId": "sunset_salmon",
+      "minQuantity": 1,
+      "maxQuantity": 1,
+      "seasons": [
+        "Summer"
+      ],
+      "weather": [
+        "Clear"
+      ],
+      "deepOnly": true,
+      "weight": 0.7,
+      "castsPerSpot": 2,
+      "baitItemId": "river_bait",
+      "skill": "fishing",
+      "skillXp": 5.0
+    }
+  ]
+}

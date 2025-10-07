@@ -3944,572 +3944,205 @@
       }
     ],
     "facts": [
-      {"pred": "works_at", "a": "P-0001", "b": "School"},
-      {"pred": "works_at", "a": "P-0002", "b": "School"},
-      {"pred": "works_at", "a": "P-0003", "b": "Library"},
-      {"pred": "works_at", "a": "P-0004", "b": "Church"},
-      {"pred": "works_at", "a": "P-0005", "b": "Bakery"},
-      {"pred": "works_at", "a": "P-0006", "b": "Bakery"},
-      {"pred": "works_at", "a": "P-0007", "b": "MayorHouse"},
-      {"pred": "works_at", "a": "P-0008", "b": "MayorHouse"},
-      {"pred": "works_at", "a": "P-0009", "b": "GeneralStore"},
-      {"pred": "works_at", "a": "P-0010", "b": "GeneralStore"},
-      {"pred": "works_at", "a": "P-0013", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0014", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0015", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0016", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0017", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0018", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0019", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0020", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0021", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0022", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0023", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0024", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0025", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0026", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0027", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0028", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0029", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0030", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0031", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0032", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0033", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0034", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0035", "b": "FarmField"},
-      {"pred": "works_at", "a": "P-0036", "b": "FarmField"},
-      {"pred": "tag", "a": "P-0102", "b": "animal"},
-      {"pred": "tag", "a": "P-0102", "b": "livestock"},
-      {"pred": "tag", "a": "P-0103", "b": "animal"},
-      {"pred": "tag", "a": "P-0103", "b": "livestock"},
-      {"pred": "tag", "a": "P-0104", "b": "animal"},
-      {"pred": "tag", "a": "P-0104", "b": "livestock"}
-    ]
-  },
-  "items": {
-    "catalog": "goap/items.json",
-    "recipes": "recipes.json"
-  },
-  "farming": {
-    "crops": "crops.json"
-  },
-  "livestock": {
-    "animals": "animals.json"
-  },
-  "fishing": {
-    "enabled": true,
-    "respawnHours": 6.0,
-    "maxActiveSpots": 14,
-    "spotsPer100Tiles": 3.5,
-    "catches": [
       {
-        "id": "river_perch",
-        "itemId": "silver_perch",
-        "minQuantity": 1,
-        "maxQuantity": 2,
-        "seasons": ["Spring", "Summer", "Autumn"],
-        "weather": ["Clear", "Cloudy"],
-        "shallowOnly": true,
-        "weight": 1.0,
-        "castsPerSpot": 3,
-        "baitItemId": "river_bait",
-        "skill": "fishing",
-        "skillXp": 3.0
+        "pred": "works_at",
+        "a": "P-0001",
+        "b": "School"
       },
       {
-        "id": "sunset_salmon",
-        "itemId": "sunset_salmon",
-        "minQuantity": 1,
-        "maxQuantity": 1,
-        "seasons": ["Summer"],
-        "weather": ["Clear"],
-        "deepOnly": true,
-        "weight": 0.7,
-        "castsPerSpot": 2,
-        "baitItemId": "river_bait",
-        "skill": "fishing",
-        "skillXp": 5.0
-      }
-    ]
-  },
-  "foraging": {
-    "enabled": true,
-    "respawnHours": 8.0,
-    "maxActiveSpots": 18,
-    "forestSpotsPer100Tiles": 3.5,
-    "coastSpotsPer100Tiles": 2.4,
-    "resources": [
-      {
-        "id": "spring_berries",
-        "itemId": "wild_berry",
-        "minQuantity": 1,
-        "maxQuantity": 3,
-        "seasons": ["Spring", "Summer"],
-        "biomes": ["forest"],
-        "weight": 1.0,
-        "gathersPerSpot": 3,
-        "skill": "foraging",
-        "skillXp": 2.0
+        "pred": "works_at",
+        "a": "P-0002",
+        "b": "School"
       },
       {
-        "id": "autumn_mushrooms",
-        "itemId": "forest_mushroom",
-        "minQuantity": 1,
-        "maxQuantity": 2,
-        "seasons": ["Autumn"],
-        "biomes": ["forest"],
-        "weight": 0.85,
-        "gathersPerSpot": 2,
-        "skill": "foraging",
-        "skillXp": 3.0
+        "pred": "works_at",
+        "a": "P-0003",
+        "b": "Library"
       },
       {
-        "id": "winter_lichen",
-        "itemId": "frost_lichen",
-        "minQuantity": 1,
-        "maxQuantity": 2,
-        "seasons": ["Winter"],
-        "biomes": ["forest"],
-        "weight": 0.6,
-        "gathersPerSpot": 2,
-        "skill": "foraging",
-        "skillXp": 2.5
+        "pred": "works_at",
+        "a": "P-0004",
+        "b": "Church"
       },
       {
-        "id": "tidal_shells",
-        "itemId": "sea_shell",
-        "minQuantity": 1,
-        "maxQuantity": 2,
-        "seasons": ["Spring", "Summer", "Autumn"],
-        "biomes": ["coast"],
-        "weight": 0.8,
-        "gathersPerSpot": 4,
-        "skill": "foraging",
-        "skillXp": 2.5
+        "pred": "works_at",
+        "a": "P-0005",
+        "b": "Bakery"
       },
       {
-        "id": "storm_driftwood",
-        "itemId": "driftwood_bundle",
-        "minQuantity": 1,
-        "maxQuantity": 1,
-        "seasons": ["Autumn", "Winter"],
-        "weather": ["Rain", "Storm"],
-        "biomes": ["coast"],
-        "weight": 0.7,
-        "gathersPerSpot": 2,
-        "skill": "foraging",
-        "skillXp": 3.0
-      }
-    ]
-  },
-  "mining": {
-    "enabled": true,
-    "respawnHours": 10.0,
-    "maxActiveNodes": 12,
-    "ores": [
-      {
-        "id": "surface_copper",
-        "itemId": "copper_ore",
-        "minQuantity": 1,
-        "maxQuantity": 2,
-        "seasons": ["Spring", "Summer", "Autumn"],
-        "weather": ["Clear", "Cloudy", "Rain"],
-        "biomes": ["mountain", "forest"],
-        "weight": 1.0,
-        "hitsPerNode": 3,
-        "requiredToolId": "",
-        "requiredToolTier": 0,
-        "skill": "mining",
-        "skillXp": 5.0
+        "pred": "works_at",
+        "a": "P-0006",
+        "b": "Bakery"
       },
       {
-        "id": "deep_iron",
-        "itemId": "iron_ore",
-        "minQuantity": 1,
-        "maxQuantity": 2,
-        "seasons": ["Autumn", "Winter"],
-        "weather": ["Clear", "Cloudy", "Storm"],
-        "biomes": ["mountain", "cavern"],
-        "weight": 0.75,
-        "hitsPerNode": 4,
-        "requiredToolId": "",
-        "requiredToolTier": 1,
-        "skill": "mining",
-        "skillXp": 6.0
+        "pred": "works_at",
+        "a": "P-0007",
+        "b": "MayorHouse"
       },
       {
-        "id": "coal_seam",
-        "itemId": "coal_chunk",
-        "minQuantity": 1,
-        "maxQuantity": 3,
-        "seasons": ["Spring", "Summer", "Autumn", "Winter"],
-        "weather": ["Clear", "Cloudy", "Rain", "Storm"],
-        "biomes": ["mountain", "cavern"],
-        "weight": 0.5,
-        "hitsPerNode": 2,
-        "requiredToolId": "",
-        "requiredToolTier": 1,
-        "skill": "mining",
-        "skillXp": 4.5
-      }
-    ],
-    "layers": [
-      {
-        "id": "surface",
-        "oreIds": ["surface_copper", "coal_seam"],
-        "biomes": ["forest", "mountain"]
+        "pred": "works_at",
+        "a": "P-0008",
+        "b": "MayorHouse"
       },
       {
-        "id": "deep",
-        "oreIds": ["deep_iron", "coal_seam"],
-        "biomes": ["mountain", "cavern"]
-      }
-    ],
-    "nodes": [
-      {
-        "id": "mine_north_entrance",
-        "type": "mine_node",
-        "tags": ["mine_node", "resource", "service_point"],
-        "x": 612,
-        "y": 198,
-        "layer": "surface",
-        "biomes": ["mountain"]
+        "pred": "works_at",
+        "a": "P-0009",
+        "b": "GeneralStore"
       },
       {
-        "id": "mine_central_chamber",
-        "type": "mine_node",
-        "tags": ["mine_node", "resource", "service_point"],
-        "x": 618,
-        "y": 204,
-        "layer": "deep",
-        "biomes": ["mountain", "cavern"]
+        "pred": "works_at",
+        "a": "P-0010",
+        "b": "GeneralStore"
       },
       {
-        "id": "mine_western_shaft",
-        "type": "mine_node",
-        "tags": ["mine_node", "resource", "service_point"],
-        "x": 604,
-        "y": 210,
-        "layer": "surface",
-        "biomes": ["forest", "mountain"]
-      }
-    ]
-  },
-  "schedules": {
-    "path": "schedules.json"
-  },
-  "events": {
-    "path": "events.json"
-  },
-  "dialogue": {
-    "path": "dialogue.json"
-  },
-  "quests": {
-    "path": "quests.json"
-  },
-  "weather": {
-    "enabled": true,
-    "defaultState": "Clear",
-    "dawnHour": 6,
-    "gustIntervalHours": 2,
-    "states": [
-      {
-        "id": "Clear",
-        "displayName": "Clear Skies",
-        "autoWaterCrops": false,
-        "growthPause": false,
-        "cancelOutdoorShifts": false,
-        "pathCostMultiplier": 1.0,
-        "weight": 5,
-        "seasonWeights": {
-          "Spring": 1.0,
-          "Summer": 1.2,
-          "Autumn": 0.9,
-          "Winter": 0.8
-        },
-        "transitions": [
-          {"to": "Clear", "weight": 4},
-          {"to": "Cloudy", "weight": 3},
-          {"to": "Rain", "weight": 1}
-        ],
-        "gustStrengthMin": 0,
-        "gustStrengthMax": 5
+        "pred": "works_at",
+        "a": "P-0013",
+        "b": "FarmField"
       },
       {
-        "id": "Cloudy",
-        "displayName": "Cloudy",
-        "autoWaterCrops": false,
-        "growthPause": false,
-        "cancelOutdoorShifts": false,
-        "pathCostMultiplier": 1.05,
-        "weight": 3,
-        "seasonWeights": {
-          "Spring": 1.0,
-          "Summer": 0.9,
-          "Autumn": 1.1,
-          "Winter": 1.0
-        },
-        "transitions": [
-          {"to": "Clear", "weight": 3},
-          {"to": "Cloudy", "weight": 3},
-          {"to": "Rain", "weight": 2}
-        ],
-        "gustStrengthMin": 3,
-        "gustStrengthMax": 10
+        "pred": "works_at",
+        "a": "P-0014",
+        "b": "FarmField"
       },
       {
-        "id": "Rain",
-        "displayName": "Rain",
-        "autoWaterCrops": true,
-        "growthPause": false,
-        "cancelOutdoorShifts": false,
-        "pathCostMultiplier": 1.1,
-        "weight": 2,
-        "seasonWeights": {
-          "Spring": 1.1,
-          "Summer": 0.8,
-          "Autumn": 1.2,
-          "Winter": 0.7
-        },
-        "transitions": [
-          {"to": "Clear", "weight": 2},
-          {"to": "Cloudy", "weight": 3},
-          {"to": "Storm", "weight": 1}
-        ],
-        "gustStrengthMin": 5,
-        "gustStrengthMax": 15
+        "pred": "works_at",
+        "a": "P-0015",
+        "b": "FarmField"
       },
       {
-        "id": "Storm",
-        "displayName": "Storm",
-        "autoWaterCrops": true,
-        "growthPause": true,
-        "cancelOutdoorShifts": true,
-        "pathCostMultiplier": 1.4,
-        "weight": 1,
-        "seasonWeights": {
-          "Spring": 0.8,
-          "Summer": 0.6,
-          "Autumn": 0.9,
-          "Winter": 0.5
-        },
-        "transitions": [
-          {"to": "Cloudy", "weight": 3},
-          {"to": "Rain", "weight": 2}
-        ],
-        "gustStrengthMin": 15,
-        "gustStrengthMax": 35
-      }
-    ]
-  },
-  "persistence": {
-    "directory": "saves",
-    "saveSlot": "demo",
-    "autosaveMinutes": 10
-  },
-  "social": {
-    "enabled": true,
-    "relationshipTypes": [
-      {
-        "id": "friendship",
-        "symmetric": true,
-        "minValue": -1.0,
-        "maxValue": 1.0,
-        "defaultValue": 0.0,
-        "description": "Affinity/hostility; higher=likes more"
-      }
-    ],
-    "seeds": [
-      {
-        "from": "P-0001",
-        "to": "P-0100",
-        "type": "friendship",
-        "value": 0.85,
-        "notes": "HeadTeacher and loyal dog Miso"
+        "pred": "works_at",
+        "a": "P-0016",
+        "b": "FarmField"
       },
       {
-        "from": "P-0100",
-        "to": "P-0001",
-        "type": "friendship",
-        "value": 0.95,
-        "notes": "Miso adores Iris"
+        "pred": "works_at",
+        "a": "P-0017",
+        "b": "FarmField"
       },
       {
-        "from": "P-0008",
-        "to": "P-0101",
-        "type": "friendship",
-        "value": 0.8,
-        "notes": "Thalia cares for Juniper the cat"
+        "pred": "works_at",
+        "a": "P-0018",
+        "b": "FarmField"
       },
       {
-        "from": "P-0101",
-        "to": "P-0008",
-        "type": "friendship",
-        "value": 0.9,
-        "notes": "Juniper is fond of Thalia"
+        "pred": "works_at",
+        "a": "P-0019",
+        "b": "FarmField"
       },
       {
-        "from": "P-0013",
-        "to": "P-0102",
-        "type": "friendship",
-        "value": 0.75,
-        "notes": "Farmer Miles tends Betsy the cow"
+        "pred": "works_at",
+        "a": "P-0020",
+        "b": "FarmField"
       },
       {
-        "from": "P-0102",
-        "to": "P-0013",
-        "type": "friendship",
-        "value": 0.7,
-        "notes": "Betsy trusts Miles"
+        "pred": "works_at",
+        "a": "P-0021",
+        "b": "FarmField"
       },
       {
-        "from": "P-0016",
-        "to": "P-0103",
-        "type": "friendship",
-        "value": 0.7,
-        "notes": "Farmer Miles Davies looks after Cloud the sheep"
+        "pred": "works_at",
+        "a": "P-0022",
+        "b": "FarmField"
       },
       {
-        "from": "P-0103",
-        "to": "P-0016",
-        "type": "friendship",
-        "value": 0.65,
-        "notes": "Cloud follows Miles Davies"
+        "pred": "works_at",
+        "a": "P-0023",
+        "b": "FarmField"
       },
       {
-        "from": "P-0015",
-        "to": "P-0104",
-        "type": "friendship",
-        "value": 0.7,
-        "notes": "Farmhand Wes looks after Nugget the chicken"
+        "pred": "works_at",
+        "a": "P-0024",
+        "b": "FarmField"
       },
       {
-        "from": "P-0104",
-        "to": "P-0015",
-        "type": "friendship",
-        "value": 0.8,
-        "notes": "Nugget sticks close to Wes"
-      }
-    ]
-  },
-  "actors": {
-    "count": 41,
-    "type": "human",
-    "tags": [
-      "actor",
-      "human"
-    ],
-    "attributes": {
-      "loneliness": {
-        "min": 0.25,
-        "max": 0.85
-      },
-      "fatigue": {
-        "min": 0.3,
-        "max": 0.6
-      },
-      "aggression": {
-        "min": 0.05,
-        "max": 0.2
-      },
-      "hunger": {
-        "min": 0.25,
-        "max": 0.7
-      },
-      "ingredients": {
-        "value": 0
-      },
-      "health": {
-        "value": 1.0
-      }
-    },
-    "inventory": {
-      "slots": 12,
-      "stackSize": 20,
-      "start": [
-        {"id": "basic_pickaxe", "quantity": 1},
-        {"id": "basic_fishing_rod", "quantity": 1}
-      ]
-    },
-    "currency": 25
-  },
-  "player": {
-    "id": "player",
-    "tags": [
-      "actor",
-      "villager",
-      "player"
-    ],
-    "spawn": {
-      "id": "Bakery"
-    },
-    "inventory": {
-      "slots": 18,
-      "stackSize": 30,
-      "start": [
-        {"id": "basic_pickaxe", "quantity": 1},
-        {"id": "basic_fishing_rod", "quantity": 1}
-      ]
-    },
-    "currency": 50,
-    "attributes": {
-      "hunger": 0.2,
-      "fatigue": 0.1,
-      "loneliness": 0.3
-    },
-    "allowAiFallback": false,
-    "autoEvaluateManualPlans": false
-  },
-  "observer": {
-    "cameraPawn": "player",
-    "showOnlySelectedPawn": false
-  },
-  "simulation": {
-    "durationGameDays": 5.0,
-    "actorHostSeed": 8675309,
-    "priorityJitter": 0.05,
-    "actorLoopFrequencyHz": 2.0,
-    "perPawnLoggingEnabled": false
-  },
-  "time": {
-    "dayLengthSeconds": 600,
-    "worldHoursPerDay": 24,
-    "minutesPerHour": 60,
-    "secondsPerMinute": 60,
-    "daysPerMonth": 30,
-    "seasonLengthDays": 90,
-    "seasons": [
-      "Spring",
-      "Summer",
-      "Autumn",
-      "Winter"
-    ],
-    "startYear": 1,
-    "startDayOfYear": 1,
-    "startTimeOfDayHours": 6
-  },
-  "needs": {
-    "enabled": true,
-    "needs": [
-      {
-        "id": "fatigue_daily",
-        "attribute": "fatigue",
-        "changePerTrigger": 0.30,
-        "triggersPerDay": 2,
-        "clamp01": true,
-        "targetTags": [
-          "actor"
-        ]
+        "pred": "works_at",
+        "a": "P-0025",
+        "b": "FarmField"
       },
       {
-        "id": "hunger_daily",
-        "attribute": "hunger",
-        "changePerTrigger": 0.30,
-        "triggersPerDay": 2,
-        "clamp01": true,
-        "targetTags": [
-          "actor"
-        ]
+        "pred": "works_at",
+        "a": "P-0026",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0027",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0028",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0029",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0030",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0031",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0032",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0033",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0034",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0035",
+        "b": "FarmField"
+      },
+      {
+        "pred": "works_at",
+        "a": "P-0036",
+        "b": "FarmField"
+      },
+      {
+        "pred": "tag",
+        "a": "P-0102",
+        "b": "animal"
+      },
+      {
+        "pred": "tag",
+        "a": "P-0102",
+        "b": "livestock"
+      },
+      {
+        "pred": "tag",
+        "a": "P-0103",
+        "b": "animal"
+      },
+      {
+        "pred": "tag",
+        "a": "P-0103",
+        "b": "livestock"
+      },
+      {
+        "pred": "tag",
+        "a": "P-0104",
+        "b": "animal"
+      },
+      {
+        "pred": "tag",
+        "a": "P-0104",
+        "b": "livestock"
       }
     ]
   }

@@ -1,0 +1,33 @@
+{
+  "id": "player",
+  "tags": [
+    "actor",
+    "villager",
+    "player"
+  ],
+  "spawn": {
+    "id": "Bakery"
+  },
+  "inventory": {
+    "slots": 18,
+    "stackSize": 30,
+    "start": [
+      {
+        "id": "basic_pickaxe",
+        "quantity": 1
+      },
+      {
+        "id": "basic_fishing_rod",
+        "quantity": 1
+      }
+    ]
+  },
+  "currency": 50,
+  "attributes": {
+    "hunger": 0.2,
+    "fatigue": 0.1,
+    "loneliness": 0.3
+  },
+  "allowAiFallback": false,
+  "autoEvaluateManualPlans": false
+}

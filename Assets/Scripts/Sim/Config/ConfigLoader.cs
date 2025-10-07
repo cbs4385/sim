@@ -29,7 +29,7 @@ namespace Sim.Config
         };
 
         /// <summary>
-        /// Loads JSON from an Assets-relative path (e.g., "Assets/Data/goap/items.json").
+        /// Loads JSON from an Assets-relative path (e.g., "Assets/Data/demo.items.json").
         /// Throws InvalidDataException on parse/validation errors.
         /// </summary>
         public static T LoadJson<T>(string assetsRelativePath)

@@ -17,6 +17,26 @@ namespace Sim.World
         public int x;
         public int y;
         public Dictionary<string, float> attributes;
+        public ThingContainerDef container;
+
+        [JsonExtensionData]
+        public IDictionary<string, JToken> Extra { get; set; }
+    }
+
+    [Serializable]
+    public class ThingContainerDef
+    {
+        public ThingInventoryDef inventory;
+
+        [JsonExtensionData]
+        public IDictionary<string, JToken> Extra { get; set; }
+    }
+
+    [Serializable]
+    public class ThingInventoryDef
+    {
+        public int slots;
+        public int stackSize;
 
         [JsonExtensionData]
         public IDictionary<string, JToken> Extra { get; set; }

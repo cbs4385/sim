@@ -1,6 +1,7 @@
 // Assets/Scripts/Sim/World/GameServices.cs
 // C# 8.0
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -70,30 +71,69 @@ namespace Sim.World
                 _cached.name = "RuntimePanelSettings";
             }
 
-            if (_cached.themeStyleSheet == null)
+            EnsureThemeAssigned(_cached);
+
+            return _cached;
+        }
+
+        private static void EnsureThemeAssigned(PanelSettings settings)
+        {
+            if (settings == null)
+                return;
+
+            var theme = Resources.Load<ThemeStyleSheet>("PanelSettings/DefaultTheme");
+            if (theme == null)
+                theme = ScriptableObject.CreateInstance<ThemeStyleSheet>();
+
+            if (settings.themeStyleSheet != theme)
+                settings.themeStyleSheet = theme;
+
+            if (TryPopulateThemeList(settings, theme))
+                return;
+
+            // Older Unity versions stored the theme list in a private field. Keep the
+            // previous reflection-based fallback for maximum compatibility.
+            var field = typeof(PanelSettings).GetField("m_ThemeStyleSheets", BindingFlags.Instance | BindingFlags.NonPublic);
+            var list = field?.GetValue(settings) as IList;
+            if (list == null)
+                return;
+
+            ReplaceThemeListContents(list, theme);
+        }
+
+        private static bool TryPopulateThemeList(PanelSettings settings, ThemeStyleSheet theme)
+        {
+            var property = typeof(PanelSettings).GetProperty("themeStyleSheets", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (property == null)
+                return false;
+
+            if (!(property.GetValue(settings) is IList list) || list.IsReadOnly)
+                return false;
+
+            ReplaceThemeListContents(list, theme);
+            return true;
+        }
+
+        private static void ReplaceThemeListContents(IList list, ThemeStyleSheet theme)
+        {
+            if (list == null)
+                return;
+
+            var containsTheme = false;
+            foreach (var item in list)
             {
-                var theme = Resources.Load<ThemeStyleSheet>("PanelSettings/DefaultTheme");
-                if (theme == null)
-                    theme = ScriptableObject.CreateInstance<ThemeStyleSheet>();
-
-                _cached.themeStyleSheet = theme;
-
-                var field = typeof(PanelSettings).GetField("m_ThemeStyleSheets", BindingFlags.Instance | BindingFlags.NonPublic);
-                var themeList = field?.GetValue(_cached) as List<ThemeStyleSheet>;
-                if (themeList == null)
+                if (ReferenceEquals(item, theme))
                 {
-                    themeList = new List<ThemeStyleSheet>();
-                    field?.SetValue(_cached, themeList);
-                }
-
-                if (!themeList.Contains(theme))
-                {
-                    themeList.Clear();
-                    themeList.Add(theme);
+                    containsTheme = true;
+                    break;
                 }
             }
 
-            return _cached;
+            if (!containsTheme)
+            {
+                list.Clear();
+                list.Add(theme);
+            }
         }
     }
 

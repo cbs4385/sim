@@ -17,6 +17,19 @@ namespace Sim.World
             Root = new VisualElement();
             Root.style.flexDirection = FlexDirection.Row;
             Root.style.flexWrap = Wrap.Wrap;
+            Root.style.paddingTop = 4;
+            Root.style.paddingLeft = 4;
+            Root.style.paddingRight = 4;
+            Root.style.paddingBottom = 4;
+            Root.style.backgroundColor = new Color(0f, 0f, 0f, 0.35f);
+            Root.style.borderTopWidth = 1f;
+            Root.style.borderRightWidth = 1f;
+            Root.style.borderBottomWidth = 1f;
+            Root.style.borderLeftWidth = 1f;
+            Root.style.borderTopColor = new Color(1f, 1f, 1f, 0.2f);
+            Root.style.borderRightColor = new Color(1f, 1f, 1f, 0.2f);
+            Root.style.borderBottomColor = new Color(1f, 1f, 1f, 0.2f);
+            Root.style.borderLeftColor = new Color(1f, 1f, 1f, 0.2f);
             // NOTE: Older UI Toolkit versions don't support style.gap/rowGap/columnGap.
             // We'll space cells using per-slot margins instead.
         }
@@ -50,6 +63,11 @@ namespace Sim.World
                 slot.style.borderLeftWidth = 1;
                 slot.style.borderRightWidth = 1;
                 slot.style.borderBottomWidth = 1;
+                slot.style.borderTopColor = new Color(1f, 1f, 1f, 0.15f);
+                slot.style.borderRightColor = new Color(1f, 1f, 1f, 0.15f);
+                slot.style.borderBottomColor = new Color(1f, 1f, 1f, 0.15f);
+                slot.style.borderLeftColor = new Color(1f, 1f, 1f, 0.15f);
+                slot.style.backgroundColor = new Color(0f, 0f, 0f, 0.4f);
                 slot.style.justifyContent = Justify.Center;
                 slot.style.alignItems = Align.Center;
                 // Spacing between cells (fallback for missing style.gap)
@@ -73,11 +91,26 @@ namespace Sim.World
                     slot.Add(img);
 
                     var qty = new Label(stack.Quantity.ToString());
-                    qty.style.position = Position.Absolute;
-                    qty.style.bottom = 2;
-                    qty.style.right = 4;
                     qty.style.fontSize = 10;
-                    slot.Add(qty);
+                    qty.style.color = Color.white;
+                    qty.style.unityFontStyleAndWeight = FontStyle.Bold;
+                    qty.pickingMode = PickingMode.Ignore;
+
+                    var qtyContainer = new VisualElement();
+                    qtyContainer.style.position = Position.Absolute;
+                    qtyContainer.style.bottom = 2;
+                    qtyContainer.style.right = 2;
+                    qtyContainer.style.paddingLeft = 4;
+                    qtyContainer.style.paddingRight = 4;
+                    qtyContainer.style.paddingTop = 1;
+                    qtyContainer.style.paddingBottom = 1;
+                    qtyContainer.style.backgroundColor = new Color(0f, 0f, 0f, 0.6f);
+                    qtyContainer.style.borderTopLeftRadius = 3;
+                    qtyContainer.style.borderBottomRightRadius = 3;
+                    qtyContainer.pickingMode = PickingMode.Ignore;
+                    qtyContainer.Add(qty);
+
+                    slot.Add(qtyContainer);
                 }
 
                 Root.Add(slot);

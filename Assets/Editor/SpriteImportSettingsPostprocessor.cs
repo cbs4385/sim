@@ -29,7 +29,7 @@ internal sealed class SpriteImportSettingsPostprocessor : AssetPostprocessor
     private static void ApplySpriteSettings(TextureImporter importer)
     {
         importer.textureType = TextureImporterType.Sprite;
-        importer.spriteImportMode = TextureImporterSpriteImportMode.Single;
+        importer.spriteImportMode = SpriteImportMode.Single;
         importer.mipmapEnabled = false;
         importer.isReadable = true;
         importer.textureCompression = TextureImporterCompression.Uncompressed;

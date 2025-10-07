@@ -67,16 +67,19 @@ namespace Sim.World
             _cached = Resources.Load<PanelSettings>("PanelSettings/DefaultPanelSettings");
             if (_cached == null)
             {
-                _cached = ScriptableObject.CreateInstance<PanelSettings>();
+                _cached = ScriptableObject.CreateInstance<RuntimePanelSettings>();
                 _cached.name = "RuntimePanelSettings";
             }
 
-            EnsureThemeAssigned(_cached);
+            PanelSettingsThemeUtility.EnsureThemeAssigned(_cached);
 
             return _cached;
         }
+    }
 
-        private static void EnsureThemeAssigned(PanelSettings settings)
+    internal static class PanelSettingsThemeUtility
+    {
+        public static void EnsureThemeAssigned(PanelSettings settings)
         {
             if (settings == null)
                 return;

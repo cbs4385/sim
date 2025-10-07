@@ -1,0 +1,73 @@
+# --- Unity core generated ---
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Aa]rtifacts/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+sysinfo.txt
+
+# Crash/diagnostic artifacts
+*.dmp
+*.stacktrace
+
+# Asset bundles & caches (safe to regenerate)
+[Aa]sset[Bb]undles/
+[Ll]ibrary/PackageCache/
+
+# Project logs (custom project conventions)
+logs/
+logs/**
+
+# --- IDE / tooling ---
+# Visual Studio / MSBuild
+.vs/
+*.sln
+*.csproj
+*.unityproj
+*.pidb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# JetBrains Rider
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code (keep common shared configs)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# --- Platform build outputs ---
+# Android
+.gradle/
+**/build/
+*.apk
+*.aab
+*.keystore
+
+# iOS / Xcode
+DerivedData/
+*.xcworkspace/
+xcuserdata/
+*.xcuserstate
+
+# --- Package artifacts ---
+*.unitypackage
+
+# --- OS noise ---
+.DS_Store
+Thumbs.db

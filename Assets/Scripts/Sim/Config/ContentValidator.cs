@@ -16,8 +16,7 @@ namespace Sim.Config
     {
         private static readonly string[] ConfigDirectories =
         {
-            "Assets/Data/config",
-            "Assets/Data/goap",
+            "Assets/Data",
             "Assets/Data/world"
         };
 

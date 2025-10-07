@@ -15,7 +15,7 @@ namespace Sim.World
         private VillageSpawner _villageSpawner;
 
         public string DemoSettingsPath = "Assets/Data/demo.settings.json";
-        public string ItemsPath = "Assets/Data/goap/items.json";
+        public string ItemsPath = "Assets/Data/demo.items.json";
 
         void Awake()
         {

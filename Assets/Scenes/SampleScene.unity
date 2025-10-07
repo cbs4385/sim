@@ -250,4 +250,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DemoSettingsPath: Assets/Data/demo.settings.json
-  ItemsPath: Assets/Data/goap/items.json
+  ItemsPath: Assets/Data/demo.items.json

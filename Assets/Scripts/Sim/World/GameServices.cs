@@ -6,6 +6,9 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 using Sim.Config;
 using Sim.Logging;
 
@@ -74,6 +77,20 @@ namespace Sim.World
                     theme = ScriptableObject.CreateInstance<ThemeStyleSheet>();
 
                 _cached.themeStyleSheet = theme;
+
+                var themeList = _cached.themeStyleSheets;
+                if (themeList == null)
+                {
+                    themeList = new List<ThemeStyleSheet>();
+                    var field = typeof(PanelSettings).GetField("m_ThemeStyleSheets", BindingFlags.Instance | BindingFlags.NonPublic);
+                    field?.SetValue(_cached, themeList);
+                }
+
+                if (themeList != null && !themeList.Contains(theme))
+                {
+                    themeList.Clear();
+                    themeList.Add(theme);
+                }
             }
 
             return _cached;
@@ -146,6 +163,8 @@ namespace Sim.World
         private sealed class TempWorld
         {
             public List<ThingDef> things;
+            [JsonExtensionData]
+            public IDictionary<string, JToken> Extra;
         }
     }
 

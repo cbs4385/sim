@@ -1,0 +1,159 @@
+{
+  "enabled": true,
+  "respawnHours": 10.0,
+  "maxActiveNodes": 12,
+  "ores": [
+    {
+      "id": "surface_copper",
+      "itemId": "copper_ore",
+      "minQuantity": 1,
+      "maxQuantity": 2,
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Autumn"
+      ],
+      "weather": [
+        "Clear",
+        "Cloudy",
+        "Rain"
+      ],
+      "biomes": [
+        "mountain",
+        "forest"
+      ],
+      "weight": 1.0,
+      "hitsPerNode": 3,
+      "requiredToolId": "",
+      "requiredToolTier": 0,
+      "skill": "mining",
+      "skillXp": 5.0
+    },
+    {
+      "id": "deep_iron",
+      "itemId": "iron_ore",
+      "minQuantity": 1,
+      "maxQuantity": 2,
+      "seasons": [
+        "Autumn",
+        "Winter"
+      ],
+      "weather": [
+        "Clear",
+        "Cloudy",
+        "Storm"
+      ],
+      "biomes": [
+        "mountain",
+        "cavern"
+      ],
+      "weight": 0.75,
+      "hitsPerNode": 4,
+      "requiredToolId": "",
+      "requiredToolTier": 1,
+      "skill": "mining",
+      "skillXp": 6.0
+    },
+    {
+      "id": "coal_seam",
+      "itemId": "coal_chunk",
+      "minQuantity": 1,
+      "maxQuantity": 3,
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Autumn",
+        "Winter"
+      ],
+      "weather": [
+        "Clear",
+        "Cloudy",
+        "Rain",
+        "Storm"
+      ],
+      "biomes": [
+        "mountain",
+        "cavern"
+      ],
+      "weight": 0.5,
+      "hitsPerNode": 2,
+      "requiredToolId": "",
+      "requiredToolTier": 1,
+      "skill": "mining",
+      "skillXp": 4.5
+    }
+  ],
+  "layers": [
+    {
+      "id": "surface",
+      "oreIds": [
+        "surface_copper",
+        "coal_seam"
+      ],
+      "biomes": [
+        "forest",
+        "mountain"
+      ]
+    },
+    {
+      "id": "deep",
+      "oreIds": [
+        "deep_iron",
+        "coal_seam"
+      ],
+      "biomes": [
+        "mountain",
+        "cavern"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "mine_north_entrance",
+      "type": "mine_node",
+      "tags": [
+        "mine_node",
+        "resource",
+        "service_point"
+      ],
+      "x": 612,
+      "y": 198,
+      "layer": "surface",
+      "biomes": [
+        "mountain"
+      ]
+    },
+    {
+      "id": "mine_central_chamber",
+      "type": "mine_node",
+      "tags": [
+        "mine_node",
+        "resource",
+        "service_point"
+      ],
+      "x": 618,
+      "y": 204,
+      "layer": "deep",
+      "biomes": [
+        "mountain",
+        "cavern"
+      ]
+    },
+    {
+      "id": "mine_western_shaft",
+      "type": "mine_node",
+      "tags": [
+        "mine_node",
+        "resource",
+        "service_point"
+      ],
+      "x": 604,
+      "y": 210,
+      "layer": "surface",
+      "biomes": [
+        "forest",
+        "mountain"
+      ]
+    }
+  ]
+}

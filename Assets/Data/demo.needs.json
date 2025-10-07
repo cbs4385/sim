@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "needs": [
+    {
+      "id": "fatigue_daily",
+      "attribute": "fatigue",
+      "changePerTrigger": 0.3,
+      "triggersPerDay": 2,
+      "clamp01": true,
+      "targetTags": [
+        "actor"
+      ]
+    },
+    {
+      "id": "hunger_daily",
+      "attribute": "hunger",
+      "changePerTrigger": 0.3,
+      "triggersPerDay": 2,
+      "clamp01": true,
+      "targetTags": [
+        "actor"
+      ]
+    }
+  ]
+}

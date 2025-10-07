@@ -1,0 +1,128 @@
+{
+  "enabled": true,
+  "defaultState": "Clear",
+  "dawnHour": 6,
+  "gustIntervalHours": 2,
+  "states": [
+    {
+      "id": "Clear",
+      "displayName": "Clear Skies",
+      "autoWaterCrops": false,
+      "growthPause": false,
+      "cancelOutdoorShifts": false,
+      "pathCostMultiplier": 1.0,
+      "weight": 5,
+      "seasonWeights": {
+        "Spring": 1.0,
+        "Summer": 1.2,
+        "Autumn": 0.9,
+        "Winter": 0.8
+      },
+      "transitions": [
+        {
+          "to": "Clear",
+          "weight": 4
+        },
+        {
+          "to": "Cloudy",
+          "weight": 3
+        },
+        {
+          "to": "Rain",
+          "weight": 1
+        }
+      ],
+      "gustStrengthMin": 0,
+      "gustStrengthMax": 5
+    },
+    {
+      "id": "Cloudy",
+      "displayName": "Cloudy",
+      "autoWaterCrops": false,
+      "growthPause": false,
+      "cancelOutdoorShifts": false,
+      "pathCostMultiplier": 1.05,
+      "weight": 3,
+      "seasonWeights": {
+        "Spring": 1.0,
+        "Summer": 0.9,
+        "Autumn": 1.1,
+        "Winter": 1.0
+      },
+      "transitions": [
+        {
+          "to": "Clear",
+          "weight": 3
+        },
+        {
+          "to": "Cloudy",
+          "weight": 3
+        },
+        {
+          "to": "Rain",
+          "weight": 2
+        }
+      ],
+      "gustStrengthMin": 3,
+      "gustStrengthMax": 10
+    },
+    {
+      "id": "Rain",
+      "displayName": "Rain",
+      "autoWaterCrops": true,
+      "growthPause": false,
+      "cancelOutdoorShifts": false,
+      "pathCostMultiplier": 1.1,
+      "weight": 2,
+      "seasonWeights": {
+        "Spring": 1.1,
+        "Summer": 0.8,
+        "Autumn": 1.2,
+        "Winter": 0.7
+      },
+      "transitions": [
+        {
+          "to": "Clear",
+          "weight": 2
+        },
+        {
+          "to": "Cloudy",
+          "weight": 3
+        },
+        {
+          "to": "Storm",
+          "weight": 1
+        }
+      ],
+      "gustStrengthMin": 5,
+      "gustStrengthMax": 15
+    },
+    {
+      "id": "Storm",
+      "displayName": "Storm",
+      "autoWaterCrops": true,
+      "growthPause": true,
+      "cancelOutdoorShifts": true,
+      "pathCostMultiplier": 1.4,
+      "weight": 1,
+      "seasonWeights": {
+        "Spring": 0.8,
+        "Summer": 0.6,
+        "Autumn": 0.9,
+        "Winter": 0.5
+      },
+      "transitions": [
+        {
+          "to": "Cloudy",
+          "weight": 3
+        },
+        {
+          "to": "Rain",
+          "weight": 2
+        }
+      ],
+      "gustStrengthMin": 15,
+      "gustStrengthMax": 35
+    }
+  ]
+}

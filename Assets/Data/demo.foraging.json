@@ -1,0 +1,97 @@
+{
+  "enabled": true,
+  "respawnHours": 8.0,
+  "maxActiveSpots": 18,
+  "forestSpotsPer100Tiles": 3.5,
+  "coastSpotsPer100Tiles": 2.4,
+  "resources": [
+    {
+      "id": "spring_berries",
+      "itemId": "wild_berry",
+      "minQuantity": 1,
+      "maxQuantity": 3,
+      "seasons": [
+        "Spring",
+        "Summer"
+      ],
+      "biomes": [
+        "forest"
+      ],
+      "weight": 1.0,
+      "gathersPerSpot": 3,
+      "skill": "foraging",
+      "skillXp": 2.0
+    },
+    {
+      "id": "autumn_mushrooms",
+      "itemId": "forest_mushroom",
+      "minQuantity": 1,
+      "maxQuantity": 2,
+      "seasons": [
+        "Autumn"
+      ],
+      "biomes": [
+        "forest"
+      ],
+      "weight": 0.85,
+      "gathersPerSpot": 2,
+      "skill": "foraging",
+      "skillXp": 3.0
+    },
+    {
+      "id": "winter_lichen",
+      "itemId": "frost_lichen",
+      "minQuantity": 1,
+      "maxQuantity": 2,
+      "seasons": [
+        "Winter"
+      ],
+      "biomes": [
+        "forest"
+      ],
+      "weight": 0.6,
+      "gathersPerSpot": 2,
+      "skill": "foraging",
+      "skillXp": 2.5
+    },
+    {
+      "id": "tidal_shells",
+      "itemId": "sea_shell",
+      "minQuantity": 1,
+      "maxQuantity": 2,
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Autumn"
+      ],
+      "biomes": [
+        "coast"
+      ],
+      "weight": 0.8,
+      "gathersPerSpot": 4,
+      "skill": "foraging",
+      "skillXp": 2.5
+    },
+    {
+      "id": "storm_driftwood",
+      "itemId": "driftwood_bundle",
+      "minQuantity": 1,
+      "maxQuantity": 1,
+      "seasons": [
+        "Autumn",
+        "Winter"
+      ],
+      "weather": [
+        "Rain",
+        "Storm"
+      ],
+      "biomes": [
+        "coast"
+      ],
+      "weight": 0.7,
+      "gathersPerSpot": 2,
+      "skill": "foraging",
+      "skillXp": 3.0
+    }
+  ]
+}

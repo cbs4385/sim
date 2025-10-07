@@ -1,0 +1,85 @@
+{
+  "enabled": true,
+  "relationshipTypes": [
+    {
+      "id": "friendship",
+      "symmetric": true,
+      "minValue": -1.0,
+      "maxValue": 1.0,
+      "defaultValue": 0.0,
+      "description": "Affinity/hostility; higher=likes more"
+    }
+  ],
+  "seeds": [
+    {
+      "from": "P-0001",
+      "to": "P-0100",
+      "type": "friendship",
+      "value": 0.85,
+      "notes": "HeadTeacher and loyal dog Miso"
+    },
+    {
+      "from": "P-0100",
+      "to": "P-0001",
+      "type": "friendship",
+      "value": 0.95,
+      "notes": "Miso adores Iris"
+    },
+    {
+      "from": "P-0008",
+      "to": "P-0101",
+      "type": "friendship",
+      "value": 0.8,
+      "notes": "Thalia cares for Juniper the cat"
+    },
+    {
+      "from": "P-0101",
+      "to": "P-0008",
+      "type": "friendship",
+      "value": 0.9,
+      "notes": "Juniper is fond of Thalia"
+    },
+    {
+      "from": "P-0013",
+      "to": "P-0102",
+      "type": "friendship",
+      "value": 0.75,
+      "notes": "Farmer Miles tends Betsy the cow"
+    },
+    {
+      "from": "P-0102",
+      "to": "P-0013",
+      "type": "friendship",
+      "value": 0.7,
+      "notes": "Betsy trusts Miles"
+    },
+    {
+      "from": "P-0016",
+      "to": "P-0103",
+      "type": "friendship",
+      "value": 0.7,
+      "notes": "Farmer Miles Davies looks after Cloud the sheep"
+    },
+    {
+      "from": "P-0103",
+      "to": "P-0016",
+      "type": "friendship",
+      "value": 0.65,
+      "notes": "Cloud follows Miles Davies"
+    },
+    {
+      "from": "P-0015",
+      "to": "P-0104",
+      "type": "friendship",
+      "value": 0.7,
+      "notes": "Farmhand Wes looks after Nugget the chicken"
+    },
+    {
+      "from": "P-0104",
+      "to": "P-0015",
+      "type": "friendship",
+      "value": 0.8,
+      "notes": "Nugget sticks close to Wes"
+    }
+  ]
+}

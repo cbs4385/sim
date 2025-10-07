@@ -1,0 +1,17 @@
+{
+  "dayLengthSeconds": 600,
+  "worldHoursPerDay": 24,
+  "minutesPerHour": 60,
+  "secondsPerMinute": 60,
+  "daysPerMonth": 30,
+  "seasonLengthDays": 90,
+  "seasons": [
+    "Spring",
+    "Summer",
+    "Autumn",
+    "Winter"
+  ],
+  "startYear": 1,
+  "startDayOfYear": 1,
+  "startTimeOfDayHours": 6
+}

@@ -1,0 +1,47 @@
+{
+  "count": 41,
+  "type": "human",
+  "tags": [
+    "actor",
+    "human"
+  ],
+  "attributes": {
+    "loneliness": {
+      "min": 0.25,
+      "max": 0.85
+    },
+    "fatigue": {
+      "min": 0.3,
+      "max": 0.6
+    },
+    "aggression": {
+      "min": 0.05,
+      "max": 0.2
+    },
+    "hunger": {
+      "min": 0.25,
+      "max": 0.7
+    },
+    "ingredients": {
+      "value": 0
+    },
+    "health": {
+      "value": 1.0
+    }
+  },
+  "inventory": {
+    "slots": 12,
+    "stackSize": 20,
+    "start": [
+      {
+        "id": "basic_pickaxe",
+        "quantity": 1
+      },
+      {
+        "id": "basic_fishing_rod",
+        "quantity": 1
+      }
+    ]
+  },
+  "currency": 25
+}

@@ -240,22 +240,38 @@ namespace Sim.World
 
         private void SeedInventory(Station station, ThingInventoryDef inventoryDef)
         {
-            if (station == null || inventoryDef?.contents == null)
+            if (station == null || inventoryDef == null)
                 return;
 
-            foreach (var entry in inventoryDef.contents)
+            var entries = ResolveInventorySeedEntries(inventoryDef);
+            foreach (var entry in entries)
             {
-                if (entry == null || string.IsNullOrWhiteSpace(entry.item))
+                if (entry == null)
+                    continue;
+
+                var itemId = entry.ResolveItemId();
+                if (string.IsNullOrWhiteSpace(itemId))
                     throw new InvalidDataException($"Pantry '{station.Id}' inventory entry missing item id.");
                 if (entry.quantity <= 0)
                     continue;
 
-                if (!_itemDatabase.TryGet(entry.item, out var item))
-                    throw new InvalidDataException($"Pantry '{station.Id}' references unknown item '{entry.item}'.");
+                if (!_itemDatabase.TryGet(itemId, out var item))
+                    throw new InvalidDataException($"Pantry '{station.Id}' references unknown item '{itemId}'.");
 
                 if (!station.Inventory.TryAdd(item, entry.quantity, out var remainder) || remainder > 0)
-                    throw new InvalidDataException($"Pantry '{station.Id}' cannot store {entry.quantity}x '{entry.item}'.");
+                    throw new InvalidDataException($"Pantry '{station.Id}' cannot store {entry.quantity}x '{itemId}'.");
             }
+        }
+
+        private static IEnumerable<ThingInventoryContentDef> ResolveInventorySeedEntries(ThingInventoryDef inventoryDef)
+        {
+            if (inventoryDef?.contents != null && inventoryDef.contents.Count > 0)
+                return inventoryDef.contents;
+
+            if (inventoryDef?.start != null && inventoryDef.start.Count > 0)
+                return inventoryDef.start;
+
+            return Array.Empty<ThingInventoryContentDef>();
         }
 
         private void OnPantryInventoryChanged(Station station, InventoryChangedEventArgs args)

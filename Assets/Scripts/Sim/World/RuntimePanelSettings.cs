@@ -7,19 +7,24 @@ using UnityEngine.UIElements;
 namespace Sim.World
 {
     /// <summary>
-    /// PanelSettings instance that guarantees a theme is assigned before the base
-    /// PanelSettings initialization runs. This suppresses warnings that are logged when
-    /// Unity creates a theme-less PanelSettings via ScriptableObject.CreateInstance.
+    /// Utility for creating <see cref="PanelSettings"/> instances that have a theme
+    /// assigned immediately after creation. Unity no longer allows inheriting from
+    /// <see cref="PanelSettings"/>, so we emulate the previous behaviour by assigning the
+    /// theme and re-invoking the internal <c>OnEnable</c> method after instantiation.
     /// </summary>
-    public sealed class RuntimePanelSettings : PanelSettings
+    public static class RuntimePanelSettings
     {
         private static readonly MethodInfo s_OnEnableMethod = typeof(PanelSettings)
             .GetMethod("OnEnable", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        protected void OnEnable()
+        public static PanelSettings CreateInstance()
         {
-            PanelSettingsThemeUtility.EnsureThemeAssigned(this);
-            s_OnEnableMethod?.Invoke(this, null);
+            var settings = ScriptableObject.CreateInstance<PanelSettings>();
+
+            PanelSettingsThemeUtility.EnsureThemeAssigned(settings);
+            s_OnEnableMethod?.Invoke(settings, null);
+
+            return settings;
         }
     }
 }

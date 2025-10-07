@@ -67,7 +67,7 @@ namespace Sim.World
             _cached = Resources.Load<PanelSettings>("PanelSettings/DefaultPanelSettings");
             if (_cached == null)
             {
-                _cached = ScriptableObject.CreateInstance<RuntimePanelSettings>();
+                _cached = RuntimePanelSettings.CreateInstance();
                 _cached.name = "RuntimePanelSettings";
             }
 

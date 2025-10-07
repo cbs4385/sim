@@ -78,15 +78,15 @@ namespace Sim.World
 
                 _cached.themeStyleSheet = theme;
 
-                var themeList = _cached.themeStyleSheets;
+                var field = typeof(PanelSettings).GetField("m_ThemeStyleSheets", BindingFlags.Instance | BindingFlags.NonPublic);
+                var themeList = field?.GetValue(_cached) as List<ThemeStyleSheet>;
                 if (themeList == null)
                 {
                     themeList = new List<ThemeStyleSheet>();
-                    var field = typeof(PanelSettings).GetField("m_ThemeStyleSheets", BindingFlags.Instance | BindingFlags.NonPublic);
                     field?.SetValue(_cached, themeList);
                 }
 
-                if (themeList != null && !themeList.Contains(theme))
+                if (!themeList.Contains(theme))
                 {
                     themeList.Clear();
                     themeList.Add(theme);

@@ -6,7 +6,7 @@
     "shards": 8,
     "rngSeed": 8675309,
     "map": {
-      "image": "village_map_1000x1000.png",
+      "image": "/world/village_map_1000x1000.png",
       "tileSize": 1,
       "tiles": {
         "GRASS": {
